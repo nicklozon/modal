@@ -9,6 +9,12 @@ use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
+    const STACK_NAMES = array(
+        'vue' => 'Vue.js',
+        'svelte' => 'Svelte',
+        'react' => 'React.js'
+    );
+
     /**
      * Register any application services.
      */
@@ -26,7 +32,8 @@ class AppServiceProvider extends ServiceProvider
             $installed = collect(File::json(base_path('vendor/composer/installed.json'))['packages'] ?? [])
                 ->firstWhere('name', 'inertiajs/inertia-laravel');
 
-            AboutCommand::add('Inertia.js', 'Stack', config('app.stack') === 'vue' ? 'Vue.js' : 'React.js');
+            $stack = config('app.stack', 'react');
+            AboutCommand::add('Inertia.js', 'Stack', self::STACK_NAMES[$stack]);
             AboutCommand::add('Inertia.js', 'Version', $installed['version'] ?? 'Not installed');
         }
 
