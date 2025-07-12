@@ -1,7 +1,7 @@
 <script>
-    import { getConfig, getConfigByType } from '../config.js'
+    import { getConfig, getConfigByType } from './config.js'
     import { getContext, onMount, onDestroy } from 'svelte'
-    import { useModalStack } from '../modalStack.svelte.js'
+    import { useModalStack } from './modalStack.svelte.js'
     import ModalRenderer from './ModalRenderer.svelte'
 
     let {

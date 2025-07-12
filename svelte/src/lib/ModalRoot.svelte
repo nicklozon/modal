@@ -1,10 +1,10 @@
 <script>
     import { onMount, onDestroy } from 'svelte'
     import { router, page } from '@inertiajs/svelte'
-    import { useModalStack } from '../modalStack.svelte.js'
+    import { useModalStack } from './modalStack.svelte.js'
     import ModalRenderer from './ModalRenderer.svelte'
     import { default as Axios } from 'axios'
-    import { sameUrlPath } from '../helpers.js'
+    import { sameUrlPath } from './helpers.js'
 
     const modalStack = useModalStack()
 

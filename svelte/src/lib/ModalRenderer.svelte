@@ -1,7 +1,7 @@
 <script>
-    import { useModalStack } from '../modalStack.svelte.js'
+    import { useModalStack } from './modalStack.svelte.js'
     import { setContext } from 'svelte'
-    import { only } from '../helpers.js'
+    import { only } from './helpers.js'
 
     let { index } = $props()
 

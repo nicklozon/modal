@@ -1,7 +1,7 @@
 <script>
-    import { modalPropNames, useModalStack } from '../modalStack.svelte.js'
-    import { only, rejectNullValues } from '../helpers.js'
-    import { getConfig } from '../config.js'
+    import { modalPropNames, useModalStack } from './modalStack.svelte.js'
+    import { only, rejectNullValues } from './helpers.js'
+    import { getConfig } from './config.js'
     import { setContext } from 'svelte'
 
     let {
