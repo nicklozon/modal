@@ -1,5 +1,5 @@
 <script>
-    let { auth, flash } = $props();
+    let { auth, flash, children } = $props();
 </script>
 
 <p>Logged in as: { auth?.user?.id ?? '-' }</p>

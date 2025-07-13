@@ -1,12 +1,11 @@
 import './bootstrap'
 import '../css/app.css'
 
-import { mount } from 'svelte'
 import { createInertiaApp } from '@inertiajs/svelte'
 
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers'
 //import { ZiggyVue } from '../../vendor/tightenco/ziggy/src/js'
-import { putConfig } from '@inertiaui/modal-svelte'
+import { putConfig, renderApp } from '@inertiaui/modal-svelte'
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel'
 
@@ -14,7 +13,7 @@ createInertiaApp({
     title: (title) => `${title} - ${appName}`,
     resolve: (name) => resolvePageComponent(`./Pages/${name}.svelte`, import.meta.glob('./Pages/**/*.svelte')),
     setup({ el, App, props, plugin }) {
-        mount(App, { target: el, props: props })
+        renderApp(el, App, props)
     },
     progress: {
         color: '#4B5563',

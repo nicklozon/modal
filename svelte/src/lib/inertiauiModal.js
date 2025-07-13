@@ -1,5 +1,5 @@
 import { getConfig, putConfig, resetConfig } from './config.js'
-import { useModalStack, initFromPageProps } from './modalStack.svelte.js'
+import { useModalStack, initFromPageProps, renderApp } from './modalStack.svelte.js'
 import useModal from './useModal.js'
 import { kebabCase } from './helpers.js'
 
@@ -29,4 +29,4 @@ function visitModal(url, options = {}) {
         })
 }
 
-export { getConfig, initFromPageProps, putConfig, resetConfig, useModal, useModalStack, visitModal }
+export { getConfig, initFromPageProps, putConfig, resetConfig, renderApp, useModal, useModalStack, visitModal }

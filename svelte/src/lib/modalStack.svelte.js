@@ -3,6 +3,7 @@ import { router } from '@inertiajs/svelte'
 import { mergeDataIntoQueryString } from '@inertiajs/core'
 import { default as Axios } from 'axios'
 import { getConfig } from './config'
+import { mount } from 'svelte'
 
 let pageVersion = null
 let resolveComponent = null
@@ -390,17 +391,12 @@ function visitModal(url, options = {}) {
 
 export const modalPropNames = ['closeButton', 'closeExplicitly', 'maxWidth', 'paddingClasses', 'panelClasses', 'position', 'slideover']
 
-export const renderApp = (App, pageProps) => {
+export const renderApp = (el, App, pageProps) => {
     initFromPageProps(pageProps)
 
-    return (props) => {
-        return {
-            Component: App,
-            props: { ...pageProps, ...props },
-            children: null,
-        }
-    }
+    mount(App, { target: el, props: pageProps })
 }
+
 
 export function useModalStack() {
     return {
