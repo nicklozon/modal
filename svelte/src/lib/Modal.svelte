@@ -105,7 +105,6 @@
         onTopOfStack,
         shouldRender
     })}
-        MODAL CHILDREN "isopen{isOpen===undefined}"
         {#if isOpen}
             <div
                 class="im-dialog relative z-20"

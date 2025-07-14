@@ -164,9 +164,7 @@
     }
 </script>
 
-START HEADLESS
 {#if currentModalContext?.shouldRender}
-    isOpen {currentModalContext.isOpen}
     {@render modalSlot({
         afterLeave: currentModalContext.afterLeave,
         close: currentModalContext.close,
@@ -189,4 +187,3 @@ START HEADLESS
         <ModalRenderer index={nextIndex} />
     {/if}
 {/if}
-END HEADLESS
