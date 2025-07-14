@@ -8,7 +8,8 @@
 
     const modalStack = useModalStack()
 
-    let { children } = $props()
+    let { App, ...rest } = $props()
+    let random = $derived($page.props.random)
 
     let isNavigating = $state(false)
     let previousModalOnBase = $state(null)
@@ -52,14 +53,14 @@
         // A Modal is opened on top of a base route, so we need to pass this base route
         // so it can redirect back with the back() helper method...
         config.headers['X-InertiaUI-Modal-Base-Url'] =
-            modalStack.getBaseUrl() ?? (initialModalStillOpened ? page.props._inertiaui_modal?.baseUrl : null)
+            modalStack.getBaseUrl() ?? (initialModalStillOpened ? $page.props._inertiaui_modal?.baseUrl : null)
 
         return config
     }
 
     onMount(() => {
         Axios.interceptors.request.use(axiosRequestInterceptor)
-        initialModalStillOpened = !!page.props._inertiaui_modal
+        initialModalStillOpened = !!$page.props._inertiaui_modal
     })
 
     onDestroy(() => {
@@ -71,7 +72,7 @@
 
     // Watch for page prop changes
     $effect(() => {
-        const newModal = page.props?._inertiaui_modal
+        const newModal = $page.props?._inertiaui_modal
 
         if (newModal && previousModal && newModal.component === previousModal.component && sameUrlPath(newModal.url, previousModal.url)) {
             modalStack.stack[0]?.updateProps(newModal.props ?? {})
@@ -81,7 +82,7 @@
     })
 </script>
 
-{@render children()}
+<App {...rest} />
 
 {#if modalStack.stack.length > 0}
     <ModalRenderer index={0} />

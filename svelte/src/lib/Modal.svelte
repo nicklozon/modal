@@ -22,63 +22,35 @@
         children,
     } = $props()
 
-    let headlessModal = $state()
+    let headlessModal
 
     // Expose methods from HeadlessModal
-    function afterLeave() {
+    export function afterLeave() {
         return headlessModal?.afterLeave()
     }
 
-    function close() {
+    export function close() {
         return headlessModal?.close()
     }
 
-    function emit(...args) {
+    export function emit(...args) {
         return headlessModal?.emit(...args)
     }
 
-    function getChildModal() {
+    export function getChildModal() {
         return headlessModal?.getChildModal()
     }
 
-    function getParentModal() {
+    export function getParentModal() {
         return headlessModal?.getParentModal()
     }
 
-    function reload(...args) {
+    export function reload(...args) {
         return headlessModal?.reload(...args)
     }
 
-    function setOpen(...args) {
+    export function setOpen(...args) {
         return headlessModal?.setOpen(...args)
-    }
-
-    function getId() {
-        return headlessModal?.getId()
-    }
-
-    function getIndex() {
-        return headlessModal?.getIndex()
-    }
-
-    function getIsOpen() {
-        return headlessModal?.getIsOpen()
-    }
-
-    function getConfig() {
-        return headlessModal?.getConfig()
-    }
-
-    function getModalContext() {
-        return headlessModal?.getModalContext()
-    }
-
-    function getOnTopOfStack() {
-        return headlessModal?.getOnTopOfStack()
-    }
-
-    function getShouldRender() {
-        return headlessModal?.getShouldRender()
     }
 
     function handleFocus() {
@@ -117,22 +89,23 @@
     onclose={handleClose}
     onsuccess={handleSuccess}
 >
-    {#snippet children({
+    {#snippet modalSlot({
         afterLeave,
         close,
-        config,
         emit,
         getChildModal,
         getParentModal,
+        reload,
+        setOpen,
         id,
         index,
         isOpen,
+        config,
         modalContext,
         onTopOfStack,
-        reload,
-        setOpen,
-        shouldRender,
+        shouldRender
     })}
+        MODAL CHILDREN "isopen{isOpen===undefined}"
         {#if isOpen}
             <div
                 class="im-dialog relative z-20"
@@ -155,51 +128,23 @@
                 {/if}
 
                 <!-- The modal/slideover content itself -->
-                {#if config.slideover}
+                {#if headlessModal?.getConfig().slideover}
                     <SlideoverContent
-                        {modalContext}
-                        {config}
+                        modalContext={headlessModal?.getModalContext()}
+                        config={headlessModal?.getConfig()}
                         onafterleave={handleAfterLeaveEvent}
                     >
-                        {@render children?.({
-                            afterLeave,
-                            close,
-                            config,
-                            emit,
-                            getChildModal,
-                            getParentModal,
-                            id,
-                            index,
-                            isOpen,
-                            modalContext,
-                            onTopOfStack,
-                            reload,
-                            setOpen,
-                            shouldRender,
-                        })}
+                        SLIDE OVER CONTENT
+                        {@render children({reload})}
                     </SlideoverContent>
                 {:else}
                     <ModalContent
-                        {modalContext}
-                        {config}
+                        modalContext={headlessModal?.getModalContext()}
+                        config={headlessModal?.getConfig()}
                         onafterleave={handleAfterLeaveEvent}
                     >
-                        {@render children?.({
-                            afterLeave,
-                            close,
-                            config,
-                            emit,
-                            getChildModal,
-                            getParentModal,
-                            id,
-                            index,
-                            isOpen,
-                            modalContext,
-                            onTopOfStack,
-                            reload,
-                            setOpen,
-                            shouldRender,
-                        })}
+                        MODAL CONTENT
+                        {@render children({reload})}
                     </ModalContent>
                 {/if}
             </div>

@@ -1,6 +1,8 @@
 <script>
 import { useModal } from '@inertiaui/modal-svelte'
 
+// NL: returns result from getContext, not sure how it works here
+// Probably not even needed -use use getContext?
 const modal = useModal()
 
 if (modal) {

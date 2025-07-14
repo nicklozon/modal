@@ -4,6 +4,7 @@ import { mergeDataIntoQueryString } from '@inertiajs/core'
 import { default as Axios } from 'axios'
 import { getConfig } from './config'
 import { mount } from 'svelte'
+import ModalRoot from './ModalRoot.svelte'
 
 let pageVersion = null
 let resolveComponent = null
@@ -75,7 +76,7 @@ class Modal {
 
         // Computed properties using $derived
         this.index = $derived(stack.findIndex((m) => m.id === this.id))
-        this.onTopOfStack = $derived(() => {
+        this.onTopOfStack = $derived.by(() => {
             if (stack.length < 2) {
                 return true
             }
@@ -394,7 +395,7 @@ export const modalPropNames = ['closeButton', 'closeExplicitly', 'maxWidth', 'pa
 export const renderApp = (el, App, pageProps) => {
     initFromPageProps(pageProps)
 
-    mount(App, { target: el, props: pageProps })
+    mount(ModalRoot, { target: el, props: { ...pageProps, App } })
 }
 
 

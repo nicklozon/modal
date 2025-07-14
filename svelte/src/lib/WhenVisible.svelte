@@ -4,7 +4,7 @@
 
     let { data = null, params = null, buffer = 0, as = 'div', always = false, children, fallback } = $props()
 
-    const modalContext = getContext('modal')
+    const modalContext = getContext('modalContext')
 
     if (!modalContext) {
         throw new Error('WhenVisible component must be used inside a Modal component')

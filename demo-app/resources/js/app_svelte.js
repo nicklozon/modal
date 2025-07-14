@@ -13,7 +13,7 @@ createInertiaApp({
     title: (title) => `${title} - ${appName}`,
     resolve: (name) => resolvePageComponent(`./Pages/${name}.svelte`, import.meta.glob('./Pages/**/*.svelte')),
     setup({ el, App, props, plugin }) {
-        renderApp(el, App, props)
+        return renderApp(el, App, props)
     },
     progress: {
         color: '#4B5563',
