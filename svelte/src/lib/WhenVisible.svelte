@@ -68,9 +68,13 @@
         observer.observe(rootElement)
     }
 
-    onMount(observeElement)
+    onMount(() => {
+        console.log('WhenVisible.svelte - onMount')
+        observeElement()
+    })
 
     onDestroy(() => {
+        console.log('WhenVisible.svelte - onDestroy')
         observer?.disconnect()
     })
 </script>

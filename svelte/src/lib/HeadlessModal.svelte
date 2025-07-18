@@ -22,15 +22,16 @@
     } = $props()
 
     const modalStack = useModalStack()
+    $effect(() => console.log(modalStack.stack.length))
     let localModalContext = $state(null)
     let unsubscribeEventListeners = null
     let rendered = $state(false)
 
     const modalContext = $derived(name ? localModalContext : getContext('modalContext'))
+    $effect(() => console.log('modalContext changed', modalContext))
 
     let config = $derived.by(() => {
-        const ctx = name ? localModalContext : modalContext
-        const isSlideover = ctx?.config?.slideover ?? slideover ?? getConfigOuter('type') === 'slideover'
+        const isSlideover = modalContext?.config?.slideover ?? slideover ?? getConfigOuter('type') === 'slideover'
 
         return {
             slideover: isSlideover,
@@ -40,31 +41,30 @@
             paddingClasses: paddingClasses ?? getConfigByType(isSlideover, 'paddingClasses'),
             panelClasses: panelClasses ?? getConfigByType(isSlideover, 'panelClasses'),
             position: position ?? getConfigByType(isSlideover, 'position'),
-            ...(ctx?.config || {}),
+            ...(modalContext?.config || {}),
         }
     })
 
     let nextIndex = $derived.by(() => {
-        const ctx = name ? localModalContext : modalContext
-        if (!ctx) return null
-        return modalStack.stack.find((m) => m.shouldRender && m.index > ctx.index)?.index
+        if (!modalContext) return null
+        return modalStack.stack.find((m) => m.shouldRender && m.index > modalContext.index)?.index
     })
-
-    let currentModalContext = $derived(name ? localModalContext : modalContext)
 
     // Handle local modals
     onMount(() => {
+        console.log('HeadlessModal.svelte - onMount')
         if (name) {
             modalStack.registerLocalModal(name, (context) => {
                 localModalContext = context
                 unsubscribeEventListeners = context.registerEventListenersFromProps(restProps)
             })
-        } else if (currentModalContext) {
-            unsubscribeEventListeners = currentModalContext.registerEventListenersFromProps(restProps)
+        } else if (modalContext) {
+            unsubscribeEventListeners = modalContext.registerEventListenersFromProps(restProps)
         }
     })
 
     onDestroy(() => {
+        console.log('HeadlessModal.svelte - onDestroy')
         if (name) {
             modalStack.removeLocalModal(name)
         }
@@ -72,79 +72,68 @@
     })
 
     // Watch for focus/blur events
-    let previousOnTopOfStack = $state(false)
+    let previousOnTopOfStack = false
     $effect(() => {
-        const ctx = currentModalContext
-        if (ctx && rendered) {
-            const onTopOfStack = ctx.onTopOfStack
-            if (onTopOfStack && !previousOnTopOfStack) {
-                onfocus?.()
-            } else if (!onTopOfStack && previousOnTopOfStack) {
-                onblur?.()
-            }
-            previousOnTopOfStack = onTopOfStack
+        const onTopOfStack = modalContext.onTopOfStack
+        if (onTopOfStack && !previousOnTopOfStack) {
+            onfocus?.()
+        } else if (!onTopOfStack && previousOnTopOfStack) {
+            onblur?.()
         }
-        if (ctx) {
-            rendered = true
-        }
+        previousOnTopOfStack = onTopOfStack
     })
 
-    // Watch for open/close events
-    let previousIsOpen = $state(false)
     $effect(() => {
-        const ctx = currentModalContext
-        if (ctx) {
-            const isOpen = ctx.isOpen
-            if (isOpen !== previousIsOpen) {
-                if (isOpen) {
-                    onsuccess?.()
-                } else {
-                    onclose?.()
-                }
-                previousIsOpen = isOpen
-            }
+        if (modalContext.isOpen) {
+            console.log('OPEN')
+            onsuccess?.()
+        } else {
+            console.log('CLOSE')
+            onclose?.()
         }
     })
 
     // Expose methods
     export function afterLeave() {
-        return currentModalContext?.afterLeave()
+        console.log('HeadlessModal afterLeave', modalContext)
+        return modalContext?.afterLeave()
     }
 
     export function close() {
-        return currentModalContext?.close()
+        console.log('closing', modalContext)
+        return modalContext?.close()
     }
 
     export function emit(...args) {
-        return currentModalContext?.emit(...args)
+        return modalContext?.emit(...args)
     }
 
     export function getChildModal() {
-        return currentModalContext?.getChildModal()
+        return modalContext?.getChildModal()
     }
 
     export function getParentModal() {
-        return currentModalContext?.getParentModal()
+        return modalContext?.getParentModal()
     }
 
     export function reload(...args) {
-        return currentModalContext?.reload(...args)
+        return modalContext?.reload(...args)
     }
 
     export function setOpen(...args) {
-        return currentModalContext?.setOpen(...args)
+        return modalContext?.setOpen(...args)
     }
 
     export function getId() {
-        return currentModalContext?.id
+        return modalContext?.id
     }
 
     export function getIndex() {
-        return currentModalContext?.index
+        return modalContext?.index
     }
 
     export function getIsOpen() {
-        return currentModalContext?.isOpen
+        return modalContext?.isOpen
     }
 
     export function getConfig() {
@@ -152,34 +141,34 @@
     }
 
     export function getModalContext() {
-        return currentModalContext
+        return modalContext
     }
 
     export function getOnTopOfStack() {
-        return currentModalContext?.onTopOfStack || false
+        return modalContext?.onTopOfStack || false
     }
 
     export function getShouldRender() {
-        return currentModalContext?.shouldRender
+        return modalContext?.shouldRender
     }
 </script>
 
-{#if currentModalContext?.shouldRender}
+{#if modalContext?.shouldRender}
     {@render modalSlot({
-        afterLeave: currentModalContext.afterLeave,
-        close: currentModalContext.close,
+        afterLeave: modalContext.afterLeave,
+        close: modalContext.close,
         config,
-        emit: currentModalContext.emit,
-        getChildModal: currentModalContext.getChildModal,
-        getParentModal: currentModalContext.getParentModal,
-        id: currentModalContext.id,
-        index: currentModalContext.index,
-        isOpen: currentModalContext.isOpen,
-        modalContext: currentModalContext,
-        onTopOfStack: currentModalContext.onTopOfStack,
-        reload: currentModalContext.reload,
-        setOpen: currentModalContext.setOpen,
-        shouldRender: currentModalContext.shouldRender
+        emit: modalContext.emit,
+        getChildModal: modalContext.getChildModal,
+        getParentModal: modalContext.getParentModal,
+        id: modalContext.id,
+        index: modalContext.index,
+        isOpen: modalContext.isOpen,
+        modalContext: modalContext,
+        onTopOfStack: modalContext.onTopOfStack,
+        reload: modalContext.reload,
+        setOpen: modalContext.setOpen,
+        shouldRender: modalContext.shouldRender
     })}
 
     <!-- The next modal in the stack -->

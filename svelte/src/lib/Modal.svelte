@@ -3,6 +3,7 @@
     import ModalContent from './ModalContent.svelte'
     import SlideoverContent from './SlideoverContent.svelte'
     import { fade } from 'svelte/transition'
+    import { onMount, onDestroy } from 'svelte'
 
     let {
         name = null,
@@ -22,7 +23,8 @@
         children,
     } = $props()
 
-    let headlessModal
+    // let headlessModal
+    let headlessModal = $state() // NL: trying to fix issues with modal closing
 
     // Expose methods from HeadlessModal
     export function afterLeave() {
@@ -30,6 +32,7 @@
     }
 
     export function close() {
+        console.log('closing', headlessModal)
         return headlessModal?.close()
     }
 
@@ -53,29 +56,18 @@
         return headlessModal?.setOpen(...args)
     }
 
-    function handleFocus() {
-        onfocus?.()
-    }
-
-    function handleBlur() {
-        onblur?.()
-    }
-
-    function handleClose() {
-        onclose?.()
-    }
-
-    function handleSuccess() {
-        onsuccess?.()
-    }
-
-    function handleAfterLeaveEvent() {
-        onafterleave?.()
-    }
+    onMount(() => {
+        console.log('Modal.svelte - onMount')
+    })
+    
+    onDestroy(() => {
+        console.log('Modal.svelte - onDestroy')
+    })
 </script>
 
 <HeadlessModal
     bind:this={headlessModal}
+
     {name}
     {slideover}
     {closeButton}
@@ -84,10 +76,11 @@
     {paddingClasses}
     {panelClasses}
     {position}
-    onfocus={handleFocus}
-    onblur={handleBlur}
-    onclose={handleClose}
-    onsuccess={handleSuccess}
+
+    {onfocus}
+    {onblur}
+    {onclose}
+    {onsuccess}
 >
     {#snippet modalSlot({
         afterLeave,
@@ -111,6 +104,7 @@
                 data-inertiaui-modal-id={id}
                 data-inertiaui-modal-index={index}
                 transition:fade={{ duration: 300 }}
+                onoutroend={afterLeave}
             >
                 <!-- Only transition the backdrop for the first modal in the stack -->
                 {#if index === 0 && onTopOfStack}
@@ -127,26 +121,26 @@
                 {/if}
 
                 <!-- The modal/slideover content itself -->
-                {#if headlessModal?.getConfig().slideover}
+                {#if headlessModal.getConfig().slideover}
                     <SlideoverContent
-                        modalContext={headlessModal?.getModalContext()}
-                        config={headlessModal?.getConfig()}
-                        onafterleave={handleAfterLeaveEvent}
+                        modalContext={modalContext}
+                        config={config}
+                        onoutroend={afterLeave}
                     >
-                        SLIDE OVER CONTENT
-                        {@render children({reload})}
+                        {@render children({close, reload, emit})}
                     </SlideoverContent>
                 {:else}
                     <ModalContent
-                        modalContext={headlessModal?.getModalContext()}
-                        config={headlessModal?.getConfig()}
-                        onafterleave={handleAfterLeaveEvent}
+                        modalContext={modalContext}
+                        config={config}
+                        onoutroend={afterLeave}
                     >
-                        MODAL CONTENT
-                        {@render children({reload})}
+                        {@render children({afterLeave, close, reload, emit, shouldRender})}
                     </ModalContent>
                 {/if}
             </div>
+        {:else}
+            CLOSED!!!
         {/if}
     {/snippet}
 </HeadlessModal>

@@ -2,6 +2,7 @@
     import CloseButton from './CloseButton.svelte'
     import { scale } from 'svelte/transition'
     import { quintOut } from 'svelte/easing'
+    import { onMount, onDestroy } from 'svelte'
 
     let { modalContext, config, onafterleave, children } = $props()
 
@@ -12,9 +13,18 @@
     }
 
     function handleAfterLeave() {
+        console.log('ModalContent handleAfterLeave')
         modalContext.afterLeave()
         onafterleave?.()
     }
+    
+    onMount(() => {
+        console.log('ModalContent.svelte - onMount')
+    })
+    
+    onDestroy(() => {
+        console.log('ModalContent.svelte - onDestroy')
+    })
 </script>
 
 <!-- Full-screen scrollable container -->

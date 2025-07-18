@@ -29,7 +29,7 @@ function alertGreeting(greeting) {
         <p dusk="state-a">A: {{ stateA }}</p>
         <p dusk="state-b">B: {{ stateB }}</p> -->
         {#if InertiaSvelte.Deferred}
-          <InertiaSvelte.Deferred data={deferred}>
+          <InertiaSvelte.Deferred data="deferred">
               {#snippet fallback()}
                   Loading...
               {/snippet}
@@ -43,8 +43,8 @@ function alertGreeting(greeting) {
 
     <div class="mt-6 bg-white shadow overflow-hidden sm:rounded-md">
         <ul class="divide-y divide-gray-200">
-            {#each users as user}
-                <li key={user.id} class="flex items-center justify-between py-4 px-6 hover:bg-gray-50">
+            {#each users as user (user.id)}
+                <li class="flex items-center justify-between py-4 px-6 hover:bg-gray-50">
                     <div class="flex items-center w-full">
                         <div class="">
                             <div class="text-sm font-medium text-gray-900">{ user.name }</div>
@@ -57,7 +57,7 @@ function alertGreeting(greeting) {
                                 dusk={`edit-user-${user.id}`}
                                 href={`/users/${user.id}/edit`}
                                 class="px-2 py-1 text-xs font-medium text-indigo-600 bg-indigo-100 rounded-md"
-                                user-greets="alertGreeting"
+                                on-user-greets={alertGreeting}
                             >
                                 Edit
                             </ModalLink>
@@ -67,7 +67,7 @@ function alertGreeting(greeting) {
                                 dusk={`slideover-user-${user.id}`}
                                 href={`/users/${user.id}/edit`}
                                 class="px-2 py-1 text-xs font-medium text-indigo-600 bg-indigo-100 rounded-md"
-                                user-greets="alertGreeting"
+                                on-user-greets={alertGreeting}
                             >
                                 Slideover
                             </ModalLink>

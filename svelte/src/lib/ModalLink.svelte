@@ -2,7 +2,7 @@
     import { modalPropNames, useModalStack } from './modalStack.svelte.js'
     import { only, rejectNullValues } from './helpers.js'
     import { getConfig } from './config.js'
-    import { setContext } from 'svelte'
+    import { setContext, onMount, onDestroy } from 'svelte'
 
     let {
         href,
@@ -112,9 +112,13 @@
         }
     }
 
+    onMount(() => {
+        console.log('ModalLink.svelte - onMount')
+    })
+    
     // Cleanup event listeners on destroy
-    import { onDestroy } from 'svelte'
     onDestroy(() => {
+        console.log('ModalLink.svelte - onDestroy')
         unsubscribeEventListeners?.()
     })
 

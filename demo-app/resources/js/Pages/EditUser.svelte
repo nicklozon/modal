@@ -1,15 +1,28 @@
 <script>
+import { onMount, onDestroy } from 'svelte';
 import { Link, useForm } from '@inertiajs/svelte';
 import { Modal, ModalLink } from '@inertiaui/modal-svelte';
 import ComponentThatUsesModalInstance from './ComponentThatUsesModalInstance.svelte';
 
 let { user, roles, randomKey } = $props();
 
+
 const form = useForm({
     name: user.name,
     email: user.email,
     role_id: user.role_id,
 })
+
+/*
+onMount(() => {
+    console.log('EditUser mounted')
+})
+
+onDestroy(() => {
+    // is executing while form is still open?
+    console.log('EditUser destroyed')
+})
+*/
 
 function updateAndRefresh(event) {
     event.preventDefault()
@@ -28,8 +41,9 @@ function submit() {
 }
 
 function onMessage(message) {
+    console.log('on message')
     messageRef = message
-    modalRefe.getChildModal().emit('greeting', `Thanks from ${props.user.name}`)
+    modalRef.getChildModal().emit('greeting', `Thanks from ${user.name}`)
 }
 
 function reloadWithData() {
@@ -39,8 +53,6 @@ function reloadWithData() {
 function reloadWithHeader() {
     modalRef.reload({ only: ['randomKey'], headers: { 'X-Random-Key': 'from-header' } })
 }
-// Vue has #default="{ close, reload, emit}" on Modal
-// Same with React, no effing clue what kind of anti-pattern this is
 </script>
 
 <Modal
@@ -48,6 +60,7 @@ function reloadWithHeader() {
     on:message={onMessage}
 >
     {#snippet children({
+        afterLeave,
         close,
         reload,
         emit,
@@ -88,30 +101,30 @@ function reloadWithHeader() {
             <div class="grid grid-cols-3 gap-6">
                 <div class="col-span-6 sm:col-span-3">
                     <label for="name" class="block text-sm font-medium text-gray-700">Name</label>
-                    <input bind:value={form.name} type="text" id="name" name="name" autocomplete="off" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
-                    {#if form.errors?.name}
-                        <p class="mt-2 text-sm text-red-600">{form.errors?.name}</p>
+                    <input bind:value={$form.name} type="text" id="name" name="name" autocomplete="off" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                    {#if $form.errors?.name}
+                        <p class="mt-2 text-sm text-red-600">{$form.errors?.name}</p>
                     {/if}
                 </div>
 
                 <div class="col-span-6 sm:col-span-3">
                     <label for="email" class="block text-sm font-medium text-gray-700">Email</label>
-                    <input bind:value={form.email} type="email" id="email" name="email" autocomplete="off" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
-                    {#if form.errors?.email}
-                        <p class="mt-2 text-sm text-red-600">{form.errors?.email}</p>
+                    <input bind:value={$form.email} type="email" id="email" name="email" autocomplete="off" class="mt-1 focus:ring-indigo-500 focus:border-indigo-500 block w-full shadow-sm sm:text-sm border-gray-300 rounded-md">
+                    {#if $form.errors?.email}
+                        <p class="mt-2 text-sm text-red-600">{$form.errors?.email}</p>
                     {/if}
                 </div>
 
                 <div class="col-span-6 sm:col-span-3">
                     <label for="role" class="block text-sm font-medium text-gray-700">Role</label>
-                    <select bind:value={form.role_id} id="role" name="role" autocomplete="off" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
-                        {#each roles as { id, role}}
-                            <option key={id} value={id}>{role}</option>
+                    <select bind:value={$form.role_id} id="role" name="role" autocomplete="off" class="mt-1 block w-full py-2 px-3 border border-gray-300 bg-white rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                        {#each Object.entries(roles) as [id, role] (id)}
+                            <option value={parseInt(id)}>{role}</option>
                         {/each}
                     </select>
 
                     <ModalLink
-                        close={reload({ only: ['roles'] })}
+                        onclose={reload({ only: ['roles'] })}
                         href="/roles/create" class="mt-2 text-sm text-indigo-600 hover:text-indigo-500 bg-transparent border border-indigo-500 rounded-md py-1 px-2 inline-flex items-center">
                         <svg class="h-4 w-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6v6m0 0v6m0-6h6m-6 0H6"></path>

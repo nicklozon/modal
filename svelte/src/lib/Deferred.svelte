@@ -1,7 +1,7 @@
 <script>
     // This is supposed to be cloned from inertia repo?
     // https://github.com/inertiajs/inertia/blob/master/packages/svelte/src/components/Deferred.svelte
-    import { getContext } from 'svelte'
+    import { getContext, onMount, onDestroy } from 'svelte'
 
     let { data, children, fallback } = $props()
 
@@ -18,6 +18,14 @@
     const keys = Array.isArray(data) ? data : [data]
 
     let allKeysAreAvailable = $derived(keys.every((key) => modalContext.props[key] !== undefined))
+    
+    onMount(() => {
+        console.log('Deferred.svelte - onMount')
+    })
+    
+    onDestroy(() => {
+        console.log('Deferred.svelte - onDestroy')
+    })
 </script>
 
 {#if allKeysAreAvailable}

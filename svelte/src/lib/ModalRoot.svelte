@@ -9,7 +9,6 @@
     const modalStack = useModalStack()
 
     let { App, ...rest } = $props()
-    let random = $derived($page.props.random)
 
     let isNavigating = $state(false)
     let previousModalOnBase = $state(null)
@@ -58,12 +57,14 @@
         return config
     }
 
+    $effect.pre(() => Axios.interceptors.request.use(axiosRequestInterceptor))
     onMount(() => {
-        Axios.interceptors.request.use(axiosRequestInterceptor)
+        console.log('ModalRoot.svelte - onMount')
         initialModalStillOpened = !!$page.props._inertiaui_modal
     })
 
     onDestroy(() => {
+        console.log('ModalRoot.svelte - onDestroy')
         unsubscribeStart()
         unsubscribeFinish()
         unsubscribeNavigate()
@@ -73,12 +74,17 @@
     // Watch for page prop changes
     $effect(() => {
         const newModal = $page.props?._inertiaui_modal
+        console.log('newModal', newModal)
 
         if (newModal && previousModal && newModal.component === previousModal.component && sameUrlPath(newModal.url, previousModal.url)) {
             modalStack.stack[0]?.updateProps(newModal.props ?? {})
         }
 
         previousModal = newModal
+    })
+
+    $effect(() => {
+        console.log('stack length', modalStack.stack.length)
     })
 </script>
 
