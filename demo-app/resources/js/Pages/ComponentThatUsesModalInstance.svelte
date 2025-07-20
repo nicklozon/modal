@@ -13,7 +13,7 @@ if (modal) {
 
 {#if modal}
     <div>
-        <button on:click={modal.close}>Close Modal with index {modal.index}</button>
+        <button onclick={modal.close}>Close Modal with index {modal.index}</button>
     </div>
 {/if}
 

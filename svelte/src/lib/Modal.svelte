@@ -21,10 +21,10 @@
         panelClasses = null,
         position = null,
         children,
+        ...rest // Vue somehow passes $attrs to HeadlessModal automaticallly?
     } = $props()
 
-    // let headlessModal
-    let headlessModal = $state() // NL: trying to fix issues with modal closing
+    let headlessModal
 
     // Expose methods from HeadlessModal
     export function afterLeave() {
@@ -81,6 +81,8 @@
     {onblur}
     {onclose}
     {onsuccess}
+
+    {...rest}
 >
     {#snippet modalSlot({
         afterLeave,
@@ -105,13 +107,13 @@
                 data-inertiaui-modal-index={index}
                 transition:fade={{ duration: 300 }}
                 onoutroend={afterLeave}
+                aria-hidden={!onTopOfStack}
             >
                 <!-- Only transition the backdrop for the first modal in the stack -->
                 {#if index === 0 && onTopOfStack}
                     <div
                         class="im-backdrop fixed inset-0 z-30 bg-black/75"
-                        aria-hidden="true"
-                        transition:fade={{ duration: 300 }}
+                        transition:fade|global={{ duration: 300 }}
                     ></div>
                 {/if}
 
@@ -121,13 +123,13 @@
                 {/if}
 
                 <!-- The modal/slideover content itself -->
-                {#if headlessModal.getConfig().slideover}
+                {#if headlessModal?.getConfig().slideover}
                     <SlideoverContent
                         modalContext={modalContext}
                         config={config}
                         onoutroend={afterLeave}
                     >
-                        {@render children({close, reload, emit})}
+                        {@render children({afterLeave, close, config, emit, getChildModal, getParentModal, id, index, isOpen, modalContext, onTopOfStack, reload, setOpen, shouldRender})}
                     </SlideoverContent>
                 {:else}
                     <ModalContent
@@ -135,7 +137,7 @@
                         config={config}
                         onoutroend={afterLeave}
                     >
-                        {@render children({afterLeave, close, reload, emit, shouldRender})}
+                        {@render children({afterLeave, close, config, emit, getChildModal, getParentModal, id, index, isOpen, modalContext, onTopOfStack, reload, setOpen, shouldRender})}
                     </ModalContent>
                 {/if}
             </div>

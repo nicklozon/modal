@@ -23,12 +23,15 @@
 
     const modalStack = useModalStack()
     $effect(() => console.log(modalStack.stack.length))
-    let localModalContext = $state(null)
+    let localModalContext = $state({})
     let unsubscribeEventListeners = null
     let rendered = $state(false)
 
-    const modalContext = $derived(name ? localModalContext : getContext('modalContext'))
-    $effect(() => console.log('modalContext changed', modalContext))
+    const modalContext = name ? localModalContext : getContext('modalContext')
+    $effect(() => {
+        console.log('modalContext changed', modalContext)
+        console.log('name', name)
+    })
 
     let config = $derived.by(() => {
         const isSlideover = modalContext?.config?.slideover ?? slideover ?? getConfigOuter('type') === 'slideover'
@@ -51,17 +54,17 @@
     })
 
     // Handle local modals
-    onMount(() => {
-        console.log('HeadlessModal.svelte - onMount')
         if (name) {
+            console.log('NAME!')
             modalStack.registerLocalModal(name, (context) => {
-                localModalContext = context
+                console.log('assigning localModalContext', context)
+                Object.assign(localModalContext, context)
                 unsubscribeEventListeners = context.registerEventListenersFromProps(restProps)
             })
         } else if (modalContext) {
+            console.log('HeadlessModal restProps', Object.keys(restProps))
             unsubscribeEventListeners = modalContext.registerEventListenersFromProps(restProps)
         }
-    })
 
     onDestroy(() => {
         console.log('HeadlessModal.svelte - onDestroy')
@@ -105,6 +108,7 @@
     }
 
     export function emit(...args) {
+        console.log('HeadlessModal emit', args)
         return modalContext?.emit(...args)
     }
 

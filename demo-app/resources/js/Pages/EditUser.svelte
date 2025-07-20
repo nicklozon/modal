@@ -25,14 +25,15 @@ onDestroy(() => {
 */
 
 function updateAndRefresh(event) {
-    event.preventDefault()
+    event.preventDefault() // NL: react doesn't do this
     $form.put(`/users/${user.id}?redirect=edit`)
 }
 
 let modalRef
-let messageRef = $state('')
+let message = $state('')
 
-function submit() {
+function submit(event) {
+    event.preventDefault()
     $form.put(`/users/${user.id}`, {
         onSuccess() {
             modalRef.close()
@@ -40,9 +41,9 @@ function submit() {
     })
 }
 
-function onMessage(message) {
-    console.log('on message')
-    messageRef = message
+function onMessage(msg) {
+    console.log('EditUser onMessage')
+    message = msg
     modalRef.getChildModal().emit('greeting', `Thanks from ${user.name}`)
 }
 
@@ -57,7 +58,7 @@ function reloadWithHeader() {
 
 <Modal
     bind:this={modalRef}
-    on:message={onMessage}
+    on-message={onMessage}
 >
     {#snippet children({
         afterLeave,
@@ -78,8 +79,8 @@ function reloadWithHeader() {
         <div class="">
             <h2 class="text-lg font-medium text-gray-900">Edit User { user.name }</h2>
             <p class="text-sm text-gray-500">Random key: <span dusk="randomKey">{ randomKey }</span></p>
-            {#if messageRef}
-                <p dusk="message" class="text-sm text-gray-500">{messageRef}</p>
+            {#if message}
+                <p dusk="message" class="text-sm text-gray-500">{message}</p>
             {/if}
         </div>
 

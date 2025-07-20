@@ -1,6 +1,6 @@
 <script>
     import CloseButton from './CloseButton.svelte'
-    import { scale } from 'svelte/transition'
+    import { fade, scale } from 'svelte/transition'
     import { quintOut } from 'svelte/easing'
     import { onMount, onDestroy } from 'svelte'
 
@@ -9,6 +9,7 @@
     let entered = $state(false)
 
     function handleAfterEnter() {
+        console.log('ModalContent handleAfterEnter')
         entered = true
     }
 
@@ -37,7 +38,7 @@
         class:items-end={config.position === 'bottom'}
     >
         <div
-            class="im-modal-wrapper w-full transition duration-300 ease-in-out"
+            class="im-modal-wrapper w-full"
             class:blur-sm={!modalContext.onTopOfStack}
             class:sm:max-w-sm={config.maxWidth === 'sm'}
             class:sm:max-w-md={config.maxWidth === 'md'}
@@ -49,8 +50,8 @@
             class:xl:max-w-5xl={config.maxWidth === '5xl'}
             class:2xl:max-w-6xl={config.maxWidth === '6xl'}
             class:2xl:max-w-7xl={config.maxWidth === '7xl'}
-            in:scale={{ duration: 300, easing: quintOut, start: 0.95 }}
-            out:scale={{ duration: 300, easing: quintOut, start: 0.95 }}
+            in:scale|global={{ duration: 300, easing: quintOut, start: 0.95 }}
+            out:scale|global={{ duration: 300, easing: quintOut, start: 0.95 }}
             onintroend={handleAfterEnter}
             onoutroend={handleAfterLeave}
         >

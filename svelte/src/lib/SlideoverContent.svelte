@@ -39,7 +39,7 @@
         class:rtl:justify-start={config.position === 'right'}
     >
         <div
-            class="im-slideover-wrapper w-full transition duration-300 ease-in-out"
+            class="im-slideover-wrapper w-full"
             class:blur-sm={!modalContext.onTopOfStack}
             class:sm:max-w-sm={config.maxWidth === 'sm'}
             class:sm:max-w-md={config.maxWidth === 'md'}
@@ -51,8 +51,8 @@
             class:xl:max-w-5xl={config.maxWidth === '5xl'}
             class:2xl:max-w-6xl={config.maxWidth === '6xl'}
             class:2xl:max-w-7xl={config.maxWidth === '7xl'}
-            in:fly={{ x: translateDirection * 300, duration: 300, easing: quintOut }}
-            out:fly={{ x: translateDirection * 300, duration: 300, easing: quintOut }}
+            in:fly|global={{ x: translateDirection * 300, duration: 300, easing: quintOut }}
+            out:fly|global={{ x: translateDirection * 300, duration: 300, easing: quintOut }}
             onintroend={handleAfterEnter}
             onoutroend={handleAfterLeave}
         >

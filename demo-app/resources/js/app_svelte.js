@@ -12,8 +12,8 @@ const appName = import.meta.env.VITE_APP_NAME || 'Laravel'
 createInertiaApp({
     title: (title) => `${title} - ${appName}`,
     resolve: (name) => resolvePageComponent(`./Pages/${name}.svelte`, import.meta.glob('./Pages/**/*.svelte')),
-    setup({ el, App, props, plugin }) {
-        return renderApp(el, App, props)
+    setup({ el, App, props }) {
+        renderApp(el, App, props)
     },
     progress: {
         color: '#4B5563',

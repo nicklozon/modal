@@ -25,6 +25,7 @@
 
 
     function handleModalEvent(event, ...args) {
+        console.log('ModalRenderer handleModalEvent', event.type)
         modalContext?.emit(event.type, ...args)
     }
 
@@ -44,6 +45,6 @@
 {#if Page}
     <Page
         {...modalContext.props}
-        onmodal-event={handleModalEvent}
+        on-modal-event={handleModalEvent}
     />
 {/if}
