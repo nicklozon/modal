@@ -9,6 +9,7 @@ on:
       - "**.jsx"
       - "**.php"
       - "**.vue"
+      - "**.svelte"
       - "**/composer.json"
       - "**/package-lock.json"
       - "demo-app/{.env.example,composer.json,package.json,phpunit.xml.dist}"
