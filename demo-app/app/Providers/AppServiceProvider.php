@@ -9,12 +9,12 @@ use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
-    const STACK_NAMES = array(
+    const STACK_NAMES = [
         'vue' => 'Vue.js',
         'svelte' => 'Svelte',
         'react-18' => 'React.js',
-        'react-19' => 'React.js'
-    );
+        'react-19' => 'React.js',
+    ];
 
     /**
      * Register any application services.
