@@ -3,7 +3,7 @@
 use Illuminate\Support\Facades\Facade;
 use Illuminate\Support\ServiceProvider;
 
-function stack() {
+function stackConfigValue() {
     switch(env('APP_STACK', 'vue')) {
         case 'vue':
             return 'vue';
@@ -17,9 +17,9 @@ function stack() {
 return [
 
     /**
-     * The stack that should be used by the application. Can be 'vue' or 'react'.
+     * The stack that should be used by the application. Can be 'vue', 'react' or 'svelte'.
      */
-    'stack' => stack(),
+    'stack' => stackConfigValue(),
 
     /*
     |--------------------------------------------------------------------------
