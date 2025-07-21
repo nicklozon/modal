@@ -29,7 +29,6 @@
             "options": { "cwd": "${workspaceFolder}/vue" },
             "runOptions": { "runOn": "folderOpen" }
         },
-        },
         {
             "label": "Build Svelte library",
             "command": "npm run dev",
