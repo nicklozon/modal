@@ -12,6 +12,7 @@ class AppServiceProvider extends ServiceProvider
     const STACK_NAMES = [
         'vue' => 'Vue.js',
         'svelte' => 'Svelte',
+        'react' => 'React.js',
         'react-18' => 'React.js',
         'react-19' => 'React.js',
     ];
