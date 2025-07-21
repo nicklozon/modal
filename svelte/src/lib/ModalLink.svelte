@@ -34,7 +34,7 @@
     let loading = $state(false)
     let modalContext = $state(null)
     let unsubscribeEventListeners = null
-    let isBlurred = $derived(!modalContext?.onTopOfStack)
+    let isBlurred = $state(false)
 
     const modalStack = useModalStack()
 
@@ -50,6 +50,8 @@
             } else if (!modalContext.onTopOfStack && !isBlurred) {
                 onblur?.()
             }
+
+            isBlurred = !modalContext.onTopOfStack
         }
     })
 
@@ -105,20 +107,14 @@
             registerEventListeners()
             onsuccess?.()
         } catch (error) {
-            console.error(error)
             onerror?.(error)
         } finally {
             loading = false
         }
     }
 
-    onMount(() => {
-        console.log('ModalLink.svelte - onMount')
-    })
-    
     // Cleanup event listeners on destroy
     onDestroy(() => {
-        console.log('ModalLink.svelte - onDestroy')
         unsubscribeEventListeners?.()
     })
 

@@ -25,7 +25,6 @@ function submit(event) {
 }
 
 function onGreeting(event) {
-    console.log('CreateRole onGreeting', event)
     greeting = event
 }
 </script>

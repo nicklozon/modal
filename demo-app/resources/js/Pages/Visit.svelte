@@ -38,11 +38,11 @@ function visitEdit() {
     <div class="mt-8">
         <h2 class="text-lg font-medium text-gray-900">Other stuff</h2>
         <div class="flex flex-col items-start">
-            <Link href="/conditionally-redirect?redirect=1" data-dusk="conditional-redirect">
+            <Link href="/conditionally-redirect?redirect=1" dusk="conditional-redirect">
                 Open page that redirects to modal
             </Link>
 
-            <ModalLink {navigate} href="/modal-props-ignore-first-load" data-dusk="modal-props-ignore-first-load">
+            <ModalLink {navigate} href="/modal-props-ignore-first-load" dusk="modal-props-ignore-first-load">
                 Open Modal with props that ignore first load
             </ModalLink>
         </div>

@@ -3,7 +3,6 @@
     import ModalContent from './ModalContent.svelte'
     import SlideoverContent from './SlideoverContent.svelte'
     import { fade } from 'svelte/transition'
-    import { onMount, onDestroy } from 'svelte'
 
     let {
         name = null,
@@ -27,12 +26,15 @@
     let headlessModal
 
     // Expose methods from HeadlessModal
+    export function getId() {
+        return headlessModal?.getId()
+    }
+
     export function afterLeave() {
         return headlessModal?.afterLeave()
     }
 
     export function close() {
-        console.log('closing', headlessModal)
         return headlessModal?.close()
     }
 
@@ -55,14 +57,6 @@
     export function setOpen(...args) {
         return headlessModal?.setOpen(...args)
     }
-
-    onMount(() => {
-        console.log('Modal.svelte - onMount')
-    })
-    
-    onDestroy(() => {
-        console.log('Modal.svelte - onDestroy')
-    })
 </script>
 
 <HeadlessModal

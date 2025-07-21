@@ -18,12 +18,12 @@ function push(value) {
 
         <p>Page ID: {$page.props._inertiaui_modal_page_id}</p>
 
-        <p data-dusk="log">{log.join(',')}</p>
+        <p dusk="log">{log.join(',')}</p>
     </div>
 
     <ModalLink
         {navigate}
-        data-dusk="modal-link"
+        dusk="modal-link"
         href="/users/1/edit"
         class="px-2 py-1 text-xs font-medium text-indigo-600 bg-indigo-100 rounded-md"
         onclose={() => push('close')}

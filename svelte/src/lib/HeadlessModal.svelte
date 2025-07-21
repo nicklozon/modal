@@ -22,16 +22,11 @@
     } = $props()
 
     const modalStack = useModalStack()
-    $effect(() => console.log(modalStack.stack.length))
     let localModalContext = $state({})
     let unsubscribeEventListeners = null
     let rendered = $state(false)
 
-    const modalContext = name ? localModalContext : getContext('modalContext')
-    $effect(() => {
-        console.log('modalContext changed', modalContext)
-        console.log('name', name)
-    })
+    let modalContext = $state(name ? localModalContext : getContext('modalContext'))
 
     let config = $derived.by(() => {
         const isSlideover = modalContext?.config?.slideover ?? slideover ?? getConfigOuter('type') === 'slideover'
@@ -54,20 +49,16 @@
     })
 
     // Handle local modals
-        if (name) {
-            console.log('NAME!')
-            modalStack.registerLocalModal(name, (context) => {
-                console.log('assigning localModalContext', context)
-                Object.assign(localModalContext, context)
-                unsubscribeEventListeners = context.registerEventListenersFromProps(restProps)
-            })
-        } else if (modalContext) {
-            console.log('HeadlessModal restProps', Object.keys(restProps))
-            unsubscribeEventListeners = modalContext.registerEventListenersFromProps(restProps)
-        }
+    if (name) {
+        modalStack.registerLocalModal(name, (context) => {
+            modalContext = context
+            unsubscribeEventListeners = context.registerEventListenersFromProps(restProps)
+        })
+    } else if (modalContext) {
+        unsubscribeEventListeners = modalContext.registerEventListenersFromProps(restProps)
+    }
 
     onDestroy(() => {
-        console.log('HeadlessModal.svelte - onDestroy')
         if (name) {
             modalStack.removeLocalModal(name)
         }
@@ -88,27 +79,22 @@
 
     $effect(() => {
         if (modalContext.isOpen) {
-            console.log('OPEN')
             onsuccess?.()
         } else {
-            console.log('CLOSE')
             onclose?.()
         }
     })
 
     // Expose methods
     export function afterLeave() {
-        console.log('HeadlessModal afterLeave', modalContext)
         return modalContext?.afterLeave()
     }
 
     export function close() {
-        console.log('closing', modalContext)
         return modalContext?.close()
     }
 
     export function emit(...args) {
-        console.log('HeadlessModal emit', args)
         return modalContext?.emit(...args)
     }
 
@@ -158,6 +144,7 @@
 </script>
 
 {#if modalContext?.shouldRender}
+    INSIDE RENDER
     {@render modalSlot({
         afterLeave: modalContext.afterLeave,
         close: modalContext.close,

@@ -1,4 +1,5 @@
 <script>
+import axios from 'axios'
 import { onMount, onDestroy } from 'svelte';
 import { Link, useForm } from '@inertiajs/svelte';
 import { Modal, ModalLink } from '@inertiaui/modal-svelte';
@@ -12,17 +13,6 @@ const form = useForm({
     email: user.email,
     role_id: user.role_id,
 })
-
-/*
-onMount(() => {
-    console.log('EditUser mounted')
-})
-
-onDestroy(() => {
-    // is executing while form is still open?
-    console.log('EditUser destroyed')
-})
-*/
 
 function updateAndRefresh(event) {
     event.preventDefault() // NL: react doesn't do this
@@ -42,7 +32,6 @@ function submit(event) {
 }
 
 function onMessage(msg) {
-    console.log('EditUser onMessage')
     message = msg
     modalRef.getChildModal().emit('greeting', `Thanks from ${user.name}`)
 }

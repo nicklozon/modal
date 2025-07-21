@@ -13,7 +13,7 @@ const sizes = ['sm', 'md', 'lg', 'xl', '2xl', '3xl', '4xl', '5xl', '6xl', '7xl']
     <div class="flex gap-2 flex-wrap">
         {#each sizes as size (size)}
             <ModalLink
-                data-dusk="modal-size-{size}"
+                dusk="modal-size-{size}"
                 maxWidth={size}
                 href="/users/1/edit"
             >Modal {size}</ModalLink>
@@ -22,7 +22,7 @@ const sizes = ['sm', 'md', 'lg', 'xl', '2xl', '3xl', '4xl', '5xl', '6xl', '7xl']
         {#each sizes as size (size)}
             <ModalLink
                 slideover
-                data-dusk="slideover-size-{size}"
+                dusk="slideover-size-{size}"
                 maxWidth={size}
                 href="/users/1/edit"
             >Slideover {size}</ModalLink>

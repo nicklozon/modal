@@ -10,19 +10,17 @@ let pageVersion = null
 let resolveComponent = null
 
 // Svelte 5 reactive state
-let stack = $state([])
+const stack = $state([])
 let localModals = $state({})
 let pendingModalUpdates = $state({})
 let baseUrl = $state(null)
 let baseModalsToWaitFor = $state({})
 
 const setComponentResolver = (resolver) => {
-    console.log('setComponentResolver called')
     resolveComponent = resolver
 }
 
 export const initFromPageProps = (pageProps) => {
-    console.log('initFromPageProps called')
     if (pageProps.initialPage) {
         pageVersion = pageProps.initialPage.version
     }
@@ -76,7 +74,6 @@ class Modal {
             delete pendingModalUpdates[this.id]
         }
 
-        // Computed properties using $derived
         this.index = $derived(stack.findIndex((m) => m.id === this.id))
         this.onTopOfStack = $derived.by(() => {
             if (stack.length < 2) {
@@ -89,7 +86,6 @@ class Modal {
     }
 
     getParentModal = () => {
-        console.log('getParentModal called on modal:', this.name || this.id)
         const index = this.index
 
         if (index < 1) {
@@ -105,7 +101,6 @@ class Modal {
     }
 
     getChildModal = () => {
-        console.log('getChildModal called on modal:', this.name || this.id)
         const index = this.index
 
         if (index === stack.length - 1) {
@@ -118,26 +113,24 @@ class Modal {
     }
 
     show = () => {
-        console.log('show called on modal:', this.name || this.id)
         const index = this.index
 
         if (index > -1) {
-            if (stack[index].isOpen) {
+            if (this.isOpen) {
                 // Only open if the modal is closed
                 return
             }
 
-            stack[index].isOpen = true
-            stack[index].shouldRender = true
+            this.isOpen = true
+            this.shouldRender = true
         }
     }
 
     close = () => {
-        console.log('close called on modal:', this.name || this.id)
         const index = this.index
 
         if (index > -1) {
-            if (!stack[index].isOpen) {
+            if (!this.isOpen) {
                 // Only close if the modal is open
                 return
             }
@@ -146,47 +139,42 @@ class Modal {
                 this.off(event)
             })
 
-            stack[index].isOpen = false
+            this.isOpen = false
             this.onCloseCallback?.()
             this.onCloseCallback = null
         }
     }
 
     setOpen = (open) => {
-        console.log('setOpen called on modal:', this.name || this.id)
         open ? this.show() : this.close()
     }
 
     afterLeave = () => {
-        console.log('afterLeave called on modal:', this.name || this.id)
         const index = this.index
 
         if (index > -1) {
-            if (stack[index].isOpen) {
+            if (this.isOpen) {
                 // Only execute the callback if the modal is closed
                 return
             }
 
-            stack[index].shouldRender = false
+            this.shouldRender = false
             this.afterLeaveCallback?.()
             this.afterLeaveCallback = null
         }
 
         if (index === 0) {
-            console.log('RESETTING STACK')
             stack.length = 0 // https://svelte.dev/docs/svelte/$state#Passing-state-across-modules
         }
     }
 
     on = (event, callback) => {
-        console.log('modalStack on', 'event:', event)
         event = kebabCase(event)
         this.listeners[event] = this.listeners[event] ?? []
         this.listeners[event].push(callback)
     }
 
     off = (event, callback) => {
-        console.log('off called on modal:', this.name || this.id, 'event:', event)
         event = kebabCase(event)
         if (callback) {
             this.listeners[event] = this.listeners[event]?.filter((cb) => cb !== callback) ?? []
@@ -196,13 +184,10 @@ class Modal {
     }
 
     emit = (event, ...args) => {
-        console.log('emit called on modal:', this.name || this.id, 'event:', event, 'args:', args)
-        console.log(this.listeners)
         this.listeners[kebabCase(event)]?.forEach((callback) => callback(...args))
     }
 
     registerEventListenersFromProps = (props) => {
-        console.log('registerEventListenersFromProps called on modal:', this.name || this.id)
         const unsubscribers = []
 
         Object.keys(props)
@@ -218,7 +203,6 @@ class Modal {
     }
 
     reload = (options = {}) => {
-        console.log('reload called on modal:', this.name || this.id)
         let keys = Object.keys(this.response.props)
 
         if (options.only) {
@@ -268,18 +252,15 @@ class Modal {
     }
 
     updateProps = (props) => {
-        console.log('updateProps called on modal:', this.name || this.id)
         Object.assign(this.props, props)
     }
 }
 
 function registerLocalModal(name, callback) {
-    console.log('registerLocalModal called')
     localModals[name] = { name, callback }
 }
 
 function pushLocalModal(name, config, onClose, afterLeave) {
-    console.log('pushLocalModal called')
     if (!localModals[name]) {
         throw new Error(`The local modal "${name}" has not been registered.`)
     }
@@ -291,12 +272,10 @@ function pushLocalModal(name, config, onClose, afterLeave) {
 }
 
 function pushFromResponseData(responseData, config = {}, onClose = null, onAfterLeave = null) {
-    console.log('pushFromResponseData called')
     return resolveComponent(responseData.component).then((component) => push(component, responseData, config, onClose, onAfterLeave))
 }
 
 function loadDeferredProps(modal) {
-    console.log('loadDeferredProps called')
     const deferred = modal.response?.meta?.deferredProps
 
     if (!deferred) {
@@ -309,12 +288,12 @@ function loadDeferredProps(modal) {
 }
 
 function push(component, response, config, onClose, afterLeave) {
-    console.log('push called')
     const newModal = new Modal(component, response, config, onClose, afterLeave)
     stack.push(newModal)
     loadDeferredProps(newModal)
 
     // Use setTimeout to ensure the modal is added to the stack before showing
+    // NL: Next tick????
     setTimeout(() => newModal.show(), 0)
 
     return newModal
@@ -331,7 +310,6 @@ function visit(
     queryStringArrayFormat = 'brackets',
     useBrowserHistory = false,
 ) {
-    console.log('visit called')
     const modalId = generateId()
 
     return new Promise((resolve, reject) => {
@@ -389,7 +367,6 @@ function visit(
 }
 
 function visitModal(url, options = {}) {
-    console.log('visitModal called')
     return visit(
         url,
         options.method ?? 'get',
@@ -416,7 +393,6 @@ function visitModal(url, options = {}) {
 export const modalPropNames = ['closeButton', 'closeExplicitly', 'maxWidth', 'paddingClasses', 'panelClasses', 'position', 'slideover']
 
 export const renderApp = (el, App, pageProps) => {
-    console.log('renderApp called')
     initFromPageProps(pageProps)
 
     const modalEl = document.createElement('div')
@@ -432,7 +408,6 @@ export const renderApp = (el, App, pageProps) => {
 
 
 export function useModalStack() {
-    console.log('useModalStack called')
     return {
         setComponentResolver,
         getBaseUrl: () => baseUrl,

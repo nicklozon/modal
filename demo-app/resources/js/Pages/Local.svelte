@@ -9,7 +9,8 @@ function closeModal() {
 }
 
 function alertModalId() {
-    alert(modalRef.id)
+    // NL: getId is how we expose the headless modal ID, but this might clash with the overall syntax of the InertiaUI Modal perferred structure
+    alert(modalRef.getId())
 }
 </script>
 

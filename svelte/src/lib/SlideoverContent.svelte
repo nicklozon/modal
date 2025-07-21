@@ -18,14 +18,6 @@
     }
 
     let translateDirection = $derived(config.position === 'left' ? -1 : 1)
-    
-    onMount(() => {
-        console.log('SlideoverContent.svelte - onMount')
-    })
-    
-    onDestroy(() => {
-        console.log('SlideoverContent.svelte - onDestroy')
-    })
 </script>
 
 <!-- Full-screen scrollable container -->

@@ -34,7 +34,6 @@
         modalStack
             .pushFromResponseData(modalOnBase, {}, () => {
                 if (!modalOnBase.baseUrl) {
-                    console.error('No base url in modal response data so cannot navigate back')
                     return
                 }
 
@@ -51,8 +50,6 @@
     const axiosRequestInterceptor = (config) => {
         // A Modal is opened on top of a base route, so we need to pass this base route
         // so it can redirect back with the back() helper method...
-        console.log('interceptor!')
-        console.log(modalStack.getBaseUrl())
         config.headers['X-InertiaUI-Modal-Base-Url'] =
             modalStack.getBaseUrl() ?? (initialModalStillOpened ? $page.props._inertiaui_modal?.baseUrl : null)
 
@@ -60,13 +57,11 @@
     }
 
     onMount(() => {
-        console.log('ModalRoot.svelte - onMount')
         Axios.interceptors.request.use(axiosRequestInterceptor)
         initialModalStillOpened = !!$page.props._inertiaui_modal
     })
 
     onDestroy(() => {
-        console.log('ModalRoot.svelte - onDestroy')
         unsubscribeStart()
         unsubscribeFinish()
         unsubscribeNavigate()
@@ -76,7 +71,6 @@
     // Watch for page prop changes
     $effect(() => {
         const newModal = $page.props?._inertiaui_modal
-        console.log('newModal', newModal)
 
         if (newModal && previousModal && newModal.component === previousModal.component && sameUrlPath(newModal.url, previousModal.url)) {
             modalStack.stack[0]?.updateProps(newModal.props ?? {})
@@ -86,12 +80,9 @@
     })
 
     $effect(() => {
-        console.log('stack length', modalStack.stack.length)
         if(modalStack.stack.length) {
-            console.log('HIDING')
             appEl.setAttribute('aria-hidden', 'true')
         } else {
-            console.log('SHOWING')
             appEl.removeAttribute('aria-hidden')
         }
     })

@@ -18,14 +18,6 @@
     const keys = Array.isArray(data) ? data : [data]
 
     let allKeysAreAvailable = $derived(keys.every((key) => modalContext.props[key] !== undefined))
-    
-    onMount(() => {
-        console.log('Deferred.svelte - onMount')
-    })
-    
-    onDestroy(() => {
-        console.log('Deferred.svelte - onDestroy')
-    })
 </script>
 
 {#if allKeysAreAvailable}

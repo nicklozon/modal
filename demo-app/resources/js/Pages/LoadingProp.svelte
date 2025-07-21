@@ -1,6 +1,8 @@
 <script>
 import Container from './Container.svelte'
 import { ModalLink } from '@inertiaui/modal-svelte'
+
+        // ModalLink let:loading
 </script>
 
 <Container>
@@ -9,11 +11,12 @@ import { ModalLink } from '@inertiaui/modal-svelte'
     </div>
 
     <ModalLink
-        data-dusk="modal-link"
+        dusk="modal-link"
         href="/slideover?slow=1"
         class="px-2 py-1 text-xs font-medium text-indigo-600 bg-indigo-100 rounded-md"
-        let:loading
     >
-        {loading ? 'Loading...' : 'Open Slideover'}
+        {#snippet children({ loading })}
+            {loading ? 'Loading...' : 'Open Slideover'}
+        {/snippet}
     </ModalLink>
 </Container>

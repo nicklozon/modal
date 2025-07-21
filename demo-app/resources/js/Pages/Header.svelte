@@ -9,7 +9,7 @@ import { ModalLink } from '@inertiaui/modal-svelte'
     </div>
 
     <ModalLink
-        data-dusk="modal-link"
+        dusk="modal-link"
         href="/roles/create"
         headers={{ 'X-Test-Header': 'Test Header Value' }}
     >

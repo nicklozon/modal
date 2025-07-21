@@ -2,14 +2,6 @@
     import { onMount, onDestroy } from 'svelte'
     
     let { onclick } = $props()
-    
-    onMount(() => {
-        console.log('CloseButton.svelte - onMount')
-    })
-    
-    onDestroy(() => {
-        console.log('CloseButton.svelte - onDestroy')
-    })
 </script>
 
 <button
