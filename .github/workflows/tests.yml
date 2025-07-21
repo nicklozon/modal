@@ -41,6 +41,8 @@ jobs:
             stack: react-18
           - laravel: 11.0
             stack: react-19
+          - app_mounting: custom
+            stack: svelte
 
     env:
       APP_URL: "http://127.0.0.1:8000"
@@ -84,6 +86,12 @@ jobs:
         run: |
           cd demo-app
           sed -i -e "s|APP_STACK=vue|APP_STACK=react|g" .env
+
+      - name: Set Svelte Environment Variables
+        if: ${{ matrix.stack == 'svelte' }}
+        run: |
+          cd demo-app
+          sed -i -e "s|APP_STACK=vue|APP_STACK=svelte|g" .env
 
       - name: Build React library
         if: ${{ matrix.stack == 'react-18' || matrix.stack == 'react-19' }}
