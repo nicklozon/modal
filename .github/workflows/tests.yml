@@ -113,7 +113,7 @@ jobs:
       - name: Build Svelte library
         if: ${{ matrix.stack == 'svelte' }}
         run: |
-          cd Svelte
+          cd svelte
           npm ci
           npm list @inertiajs/svelte
           npm run build
