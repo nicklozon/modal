@@ -1,0 +1,65 @@
+export default HeadlessModal;
+type HeadlessModal = {
+    $on?(type: string, callback: (e: any) => void): () => void;
+    $set?(props: Partial<$$ComponentProps>): void;
+} & {
+    afterLeave: () => any;
+    close: () => any;
+    emit: (...args: any[]) => any;
+    getChildModal: () => any;
+    getParentModal: () => any;
+    reload: (...args: any[]) => any;
+    setOpen: (...args: any[]) => any;
+    getId: () => any;
+    getIndex: () => any;
+    getIsOpen: () => any;
+    getConfig: () => any;
+    getModalContext: () => any;
+    getOnTopOfStack: () => any;
+    getShouldRender: () => any;
+};
+declare const HeadlessModal: import("svelte").Component<{
+    name?: any;
+    slideover?: any;
+    closeButton?: any;
+    closeExplicitly?: any;
+    maxWidth?: any;
+    paddingClasses?: any;
+    panelClasses?: any;
+    position?: any;
+    modalSlot: any;
+    onfocus: any;
+    onblur: any;
+    onclose: any;
+    onsuccess: any;
+} & Record<string, any>, {
+    afterLeave: () => any;
+    close: () => any;
+    emit: (...args: any[]) => any;
+    getChildModal: () => any;
+    getParentModal: () => any;
+    reload: (...args: any[]) => any;
+    setOpen: (...args: any[]) => any;
+    getId: () => any;
+    getIndex: () => any;
+    getIsOpen: () => any;
+    getConfig: () => any;
+    getModalContext: () => any;
+    getOnTopOfStack: () => any;
+    getShouldRender: () => any;
+}, "">;
+type $$ComponentProps = {
+    name?: any;
+    slideover?: any;
+    closeButton?: any;
+    closeExplicitly?: any;
+    maxWidth?: any;
+    paddingClasses?: any;
+    panelClasses?: any;
+    position?: any;
+    modalSlot: any;
+    onfocus: any;
+    onblur: any;
+    onclose: any;
+    onsuccess: any;
+} & Record<string, any>;
