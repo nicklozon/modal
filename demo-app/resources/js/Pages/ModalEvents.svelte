@@ -7,11 +7,11 @@ function log(value) {
 </script>
 
 <Modal
-    onsuccess={() => log('success')}
-    onblur={() => log('blur')}
-    onfocus={() => log('focus')}
-    onclose={() => log('close')}
-    onafterleave={() => log('after-leave')}
+    onSuccess={() => log('success')}
+    onBlur={() => log('blur')}
+    onFocus={() => log('focus')}
+    onClose={() => log('close')}
+    onAfterLeave={() => log('after-leave')}
 >
     <ModalLink href="/roles/create">
         Create role

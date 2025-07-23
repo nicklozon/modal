@@ -9,7 +9,6 @@ import ModalRoot from './ModalRoot.svelte'
 let pageVersion = null
 let resolveComponent = null
 
-// Svelte 5 reactive state
 const stack = $state([])
 let localModals = $state({})
 let pendingModalUpdates = $state({})
@@ -164,7 +163,7 @@ class Modal {
         }
 
         if (index === 0) {
-            stack.length = 0 // https://svelte.dev/docs/svelte/$state#Passing-state-across-modules
+            stack.length = 0 // NL: https://svelte.dev/docs/svelte/$state#Passing-state-across-modules
         }
     }
 
@@ -293,7 +292,7 @@ function push(component, response, config, onClose, afterLeave) {
     loadDeferredProps(newModal)
 
     // Use setTimeout to ensure the modal is added to the stack before showing
-    // NL: Next tick????
+    // NL: Is this the same as nextTick?
     setTimeout(() => newModal.show(), 0)
 
     return newModal
@@ -425,8 +424,8 @@ export function useModalStack() {
         removeLocalModal: (name) => {
             const newLocalModals = { ...localModals }
             delete newLocalModals[name]
-            // NL: this will break since it's a direct assignment
-            // maybe make localModals a getter above, unless reactivity is necessary
+            // NL: this may break since it's a direct assignment if anything is expecting it to be reactive
+            //     maybe make localModals a getter above, unless reactivity is necessary
             localModals = newLocalModals
         },
         onModalOnBase: (modalOnBase) => {

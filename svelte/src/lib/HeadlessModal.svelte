@@ -1,6 +1,6 @@
 <script>
+    import { getContext, onDestroy } from 'svelte'
     import { getConfig as getConfigOuter, getConfigByType } from './config.js'
-    import { getContext, onMount, onDestroy } from 'svelte'
     import { useModalStack } from './modalStack.svelte.js'
     import ModalRenderer from './ModalRenderer.svelte'
 
@@ -14,18 +14,16 @@
         panelClasses = null,
         position = null,
         modalSlot,
-        onfocus,
-        onblur,
-        onclose,
-        onsuccess,
+        onFocus,
+        onBlur,
+        onClose,
+        onSuccess,
         ...restProps
     } = $props()
 
     const modalStack = useModalStack()
     let localModalContext = $state({})
     let unsubscribeEventListeners = null
-    let rendered = $state(false)
-
     let modalContext = $state(name ? localModalContext : getContext('modalContext'))
 
     let config = $derived.by(() => {
@@ -65,27 +63,25 @@
         unsubscribeEventListeners?.()
     })
 
-    // Watch for focus/blur events
     let previousOnTopOfStack = false
     $effect(() => {
-        const onTopOfStack = modalContext.onTopOfStack
-        if (onTopOfStack && !previousOnTopOfStack) {
-            onfocus?.()
-        } else if (!onTopOfStack && previousOnTopOfStack) {
-            onblur?.()
+        if (modalContext.onTopOfStack && !previousOnTopOfStack) {
+            onFocus?.()
+        } else if (!modalContext.onTopOfStack && previousOnTopOfStack) {
+            onBlur?.()
         }
-        previousOnTopOfStack = onTopOfStack
+
+        previousOnTopOfStack = modalContext.onTopOfStack
     })
 
     $effect(() => {
         if (modalContext.isOpen) {
-            onsuccess?.()
+            onSuccess?.()
         } else {
-            onclose?.()
+            onClose?.()
         }
     })
 
-    // Expose methods
     export function afterLeave() {
         return modalContext?.afterLeave()
     }
@@ -144,7 +140,6 @@
 </script>
 
 {#if modalContext?.shouldRender}
-    INSIDE RENDER
     {@render modalSlot({
         afterLeave: modalContext.afterLeave,
         close: modalContext.close,

@@ -1,7 +1,7 @@
 import { getConfig, putConfig, resetConfig } from './config.js'
+import { kebabCase } from './helpers.js'
 import { useModalStack, initFromPageProps, renderApp } from './modalStack.svelte.js'
 import useModal from './useModal.js'
-import { kebabCase } from './helpers.js'
 
 function visitModal(url, options = {}) {
     return useModalStack()

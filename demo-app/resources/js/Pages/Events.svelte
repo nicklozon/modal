@@ -26,12 +26,12 @@ function push(value) {
         dusk="modal-link"
         href="/users/1/edit"
         class="px-2 py-1 text-xs font-medium text-indigo-600 bg-indigo-100 rounded-md"
-        onclose={() => push('close')}
-        onfocus={() => push('focus')}
-        onafterleave={() => push('after-leave')}
-        onblur={() => push('blur')}
-        onstart={() => push('start')}
-        onsuccess={() => push('success')}
+        onClose={() => push('close')}
+        onFocus={() => push('focus')}
+        onAfterLeave={() => push('after-leave')}
+        onBlur={() => push('blur')}
+        onStart={() => push('start')}
+        onSuccess={() => push('success')}
     >
         Open Modal
     </ModalLink>

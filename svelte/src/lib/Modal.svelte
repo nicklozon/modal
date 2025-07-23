@@ -6,12 +6,13 @@
 
     let {
         name = null,
-        onfocus = null,
-        onblur = null,
-        onclose = null,
-        onsuccess = null,
-        onafterleave = null,
+        onFocus = null,
+        onBlur = null,
+        onClose = null,
+        onSuccess = null,
+        onAfterLeave = null, // NL: I don't think this is ever used, delete?
         // Modal configuration props
+        // NL: vue doesn't have these...do I remove them here? They're really headless modal props
         slideover = null,
         closeButton = null,
         closeExplicitly = null,
@@ -20,10 +21,11 @@
         panelClasses = null,
         position = null,
         children,
-        ...rest // Vue somehow passes $attrs to HeadlessModal automaticallly?
+        ...rest // NL: Vue uses v-slot - this should be filtered
     } = $props()
 
     let headlessModal
+    const Content = $derived(headlessModal?.getConfig().slideover ? SlideoverContent : ModalContent)
 
     // Expose methods from HeadlessModal
     export function getId() {
@@ -71,10 +73,10 @@
     {panelClasses}
     {position}
 
-    {onfocus}
-    {onblur}
-    {onclose}
-    {onsuccess}
+    {onFocus}
+    {onBlur}
+    {onClose}
+    {onSuccess}
 
     {...rest}
 >
@@ -117,26 +119,14 @@
                 {/if}
 
                 <!-- The modal/slideover content itself -->
-                {#if headlessModal?.getConfig().slideover}
-                    <SlideoverContent
-                        modalContext={modalContext}
-                        config={config}
-                        onoutroend={afterLeave}
-                    >
-                        {@render children({afterLeave, close, config, emit, getChildModal, getParentModal, id, index, isOpen, modalContext, onTopOfStack, reload, setOpen, shouldRender})}
-                    </SlideoverContent>
-                {:else}
-                    <ModalContent
-                        modalContext={modalContext}
-                        config={config}
-                        onoutroend={afterLeave}
-                    >
-                        {@render children({afterLeave, close, config, emit, getChildModal, getParentModal, id, index, isOpen, modalContext, onTopOfStack, reload, setOpen, shouldRender})}
-                    </ModalContent>
-                {/if}
+                <Content
+                    modalContext={modalContext}
+                    config={config}
+                    onoutroend={afterLeave}
+                >
+                    {@render children({afterLeave, close, config, emit, getChildModal, getParentModal, id, index, isOpen, modalContext, onTopOfStack, reload, setOpen, shouldRender})}
+                </Content>
             </div>
-        {:else}
-            CLOSED!!!
         {/if}
     {/snippet}
 </HeadlessModal>

@@ -21,6 +21,7 @@
     let Page = $derived(modalContext?.component?.default)
 
 
+    // NL: events are using kebab case, maybe camel back would be better? Check what react does
     function handleModalEvent(event, ...args) {
         modalContext?.emit(event.type, ...args)
     }

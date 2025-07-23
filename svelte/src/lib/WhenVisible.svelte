@@ -1,4 +1,7 @@
 <script>
+    // NL: not even sure what this is or if it's been tested
+
+    // NL: should this be a clone of the inertiajs WhenVisible component?
     // See: https://github.com/inertiajs/inertia/blob/48bcd21fb7daf467d0df1bfde2408f161f94a579/packages/vue3/src/whenVisible.ts
     import { onMount, onDestroy, getContext } from 'svelte'
 

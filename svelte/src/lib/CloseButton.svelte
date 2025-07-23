@@ -1,6 +1,4 @@
 <script>
-    import { onMount, onDestroy } from 'svelte'
-    
     let { onclick } = $props()
 </script>
 

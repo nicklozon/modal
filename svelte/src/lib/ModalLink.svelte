@@ -2,7 +2,7 @@
     import { modalPropNames, useModalStack } from './modalStack.svelte.js'
     import { only, rejectNullValues } from './helpers.js'
     import { getConfig } from './config.js'
-    import { setContext, onMount, onDestroy } from 'svelte'
+    import { setContext, onDestroy } from 'svelte'
 
     let {
         href,
@@ -12,13 +12,13 @@
         headers = {},
         queryStringArrayFormat = 'brackets',
         navigate = null,
-        onafterleave = null,
-        onblur = null,
-        onclose = null,
-        onerror = null,
-        onfocus = null,
-        onstart = null,
-        onsuccess = null,
+        onAfterLeave = null,
+        onBlur = null,
+        onClose = null,
+        onError = null,
+        onFocus = null,
+        onStart = null,
+        onSuccess = null,
         // Modal configuration props (passthrough to Modal)
         closeButton = null,
         closeExplicitly = null,
@@ -46,9 +46,9 @@
     $effect(() => {
         if (modalContext) {
             if (modalContext.onTopOfStack && isBlurred) {
-                onfocus?.()
+                onFocus?.()
             } else if (!modalContext.onTopOfStack && !isBlurred) {
-                onblur?.()
+                onBlur?.()
             }
 
             isBlurred = !modalContext.onTopOfStack
@@ -56,12 +56,12 @@
     })
 
     function handleClose() {
-        onclose?.()
+        onClose?.()
     }
 
     function handleAfterLeave() {
         modalContext = null
-        onafterleave?.()
+        onAfterLeave?.()
     }
 
     function registerEventListeners() {
@@ -76,7 +76,7 @@
 
         if (!href.startsWith('#')) {
             loading = true
-            onstart?.()
+            onStart?.()
         }
 
         try {
@@ -105,9 +105,9 @@
 
             modalContext = newModalContext
             registerEventListeners()
-            onsuccess?.()
+            onSuccess?.()
         } catch (error) {
-            onerror?.(error)
+            onError?.(error)
         } finally {
             loading = false
         }

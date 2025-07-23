@@ -2,10 +2,9 @@
     import CloseButton from './CloseButton.svelte'
     import { scale } from 'svelte/transition'
     import { quintOut } from 'svelte/easing'
-    import { onMount, onDestroy } from 'svelte'
     import { onClick, onEscape } from './helpers.js'
 
-    let { modalContext, config, onafterleave, children } = $props()
+    let { modalContext, config, onAfterLeave, children } = $props()
 
     let entered = $state(false)
     let contentRef
@@ -16,7 +15,7 @@
 
     function handleAfterLeave() {
         modalContext.afterLeave()
-        onafterleave?.()
+        onAfterLeave?.()
     }
     
     // NL: not using a headless component library, so handling escape closing manually
@@ -28,7 +27,7 @@
 
     // NL: not using a headless component library, so handling clicking outside manually
     function handleClickOutside(event) {
-        if(!config?.closeExplicitly && modalContext.onTopOfStack && contentRef && !contentRef.contains(event.target)) {
+        if(!config?.closeExplicitly && modalContext.onTopOfStack && contentRef && !contentRef.contains(event.target) && document.contains(event.target)) {
             modalContext.close()
         }
     }

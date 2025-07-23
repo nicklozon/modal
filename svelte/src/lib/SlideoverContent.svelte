@@ -2,9 +2,8 @@
     import CloseButton from './CloseButton.svelte'
     import { fly } from 'svelte/transition'
     import { quintOut } from 'svelte/easing'
-    import { onMount, onDestroy } from 'svelte'
 
-    let { modalContext, config, onafterleave, children } = $props()
+    let { modalContext, config, onAfterLeave, children } = $props()
 
     let entered = $state(false)
 
@@ -14,7 +13,7 @@
 
     function handleAfterLeave() {
         modalContext.afterLeave()
-        onafterleave?.()
+        onAfterLeave?.()
     }
 
     let translateDirection = $derived(config.position === 'left' ? -1 : 1)

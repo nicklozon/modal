@@ -1,7 +1,7 @@
 <script>
-    // This is supposed to be cloned from inertia repo?
+    // NL: Is this is supposed to be cloned from inertia repo?
     // https://github.com/inertiajs/inertia/blob/master/packages/svelte/src/components/Deferred.svelte
-    import { getContext, onMount, onDestroy } from 'svelte'
+    import { getContext } from 'svelte'
 
     let { data, children, fallback } = $props()
 
