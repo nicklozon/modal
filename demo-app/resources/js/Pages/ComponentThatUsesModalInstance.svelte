@@ -1,14 +1,13 @@
 <script>
-import { useModal } from '@inertiaui/modal-svelte'
+    import { useModal } from '@inertiaui/modal-svelte'
 
-// NL: returns result from getContext, not sure how it works here
-// Probably not even needed -use use getContext?
-const modal = useModal()
+    // NL: returns result from getContext, not sure how it works here
+    const modal = useModal()
 
-if (modal) {
-    const { props } = useModal()
-    console.log(props.roles)
-}
+    if (modal) {
+        const { props } = useModal()
+        console.log(props.roles)
+    }
 </script>
 
 {#if modal}
@@ -16,4 +15,3 @@ if (modal) {
         <button onclick={modal.close}>Close Modal with index {modal.index}</button>
     </div>
 {/if}
-

@@ -1,9 +1,9 @@
 <script>
-import { Deferred, Modal, WhenVisible } from '@inertiaui/modal-svelte'
+    import { Deferred, Modal, WhenVisible } from '@inertiaui/modal-svelte'
 
-let { deferA, deferB, lazy, optional } = $props()
+    let { deferA, deferB, lazy, optional } = $props()
 
-let visible = $state(false)
+    let visible = $state(false)
 </script>
 
 <Modal>

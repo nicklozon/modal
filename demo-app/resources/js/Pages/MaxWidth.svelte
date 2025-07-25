@@ -1,8 +1,8 @@
 <script>
-import Container from './Container.svelte'
-import { ModalLink } from '@inertiaui/modal-svelte'
+    import Container from './Container.svelte'
+    import { ModalLink } from '@inertiaui/modal-svelte'
 
-const sizes = ['sm', 'md', 'lg', 'xl', '2xl', '3xl', '4xl', '5xl', '6xl', '7xl']
+    const sizes = ['sm', 'md', 'lg', 'xl', '2xl', '3xl', '4xl', '5xl', '6xl', '7xl']
 </script>
 
 <Container>

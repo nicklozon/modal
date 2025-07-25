@@ -1,9 +1,9 @@
 <script>
-import { ModalLink } from '@inertiaui/modal-svelte'
-import Container from './Container.svelte'
-import * as InertiaSvelte from '@inertiajs/svelte'
+    import { ModalLink } from '@inertiaui/modal-svelte'
+    import Container from './Container.svelte'
+    import * as InertiaSvelte from '@inertiajs/svelte'
 
-let {user, deferred} = $props()
+    let {user, deferred} = $props()
 </script>
 
 <Container>

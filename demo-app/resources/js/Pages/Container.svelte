@@ -1,6 +1,6 @@
 <script>
     import { page } from '@inertiajs/svelte'
-    let { children } = $props();
+    let { children } = $props()
 </script>
 
 <p>Logged in as: { $page.props.auth.user?.id ?? '-' }</p>

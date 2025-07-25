@@ -1,8 +1,6 @@
 <script>
-import Container from './Container.svelte'
-import { ModalLink } from '@inertiaui/modal-svelte'
-
-        // ModalLink let:loading
+    import Container from './Container.svelte'
+    import { ModalLink } from '@inertiaui/modal-svelte'
 </script>
 
 <Container>

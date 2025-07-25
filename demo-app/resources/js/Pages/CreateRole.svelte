@@ -1,32 +1,32 @@
 <script>
-import { useForm } from '@inertiajs/svelte'
-import axios from 'axios'
-import { Modal, ModalLink } from '@inertiaui/modal-svelte'
-import ComponentThatUsesModalInstance from './ComponentThatUsesModalInstance.svelte'
+    import { useForm } from '@inertiajs/svelte'
+    import axios from 'axios'
+    import { Modal, ModalLink } from '@inertiaui/modal-svelte'
+    import ComponentThatUsesModalInstance from './ComponentThatUsesModalInstance.svelte'
 
-let { headerValue, name } = $props()
+    let { headerValue, name } = $props()
 
-const form = useForm({
-    name: '',
-})
-
-let modalRef
-let greeting = $state('')
-
-function submit(event) {
-    event.preventDefault()
-    /*
-    // NL: inertia form helper performs a redirect...
-    $form.post('/roles', $form.data(), {
-        onSuccess: () => modalRef.close()
+    const form = useForm({
+        name: '',
     })
-    */
-    axios.post('/roles', $form.data()).then(() => modalRef.close())
-}
 
-function onGreeting(event) {
-    greeting = event
-}
+    let modalRef
+    let greeting = $state('')
+
+    function submit(event) {
+        event.preventDefault()
+        /*
+        // NL: This follows the redirect and closes all modals, same as Vue - seems like a bug?
+        $form.post('/roles', {
+            onSuccess: modalRef.close
+        })
+        */
+        axios.post('/roles', $form.data()).then(() => modalRef.close())
+    }
+
+    function onGreeting(event) {
+        greeting = event
+    }
 </script>
 
 <Modal

@@ -1,16 +1,16 @@
 <script>
-import Container from './Container.svelte'
-import { Modal, ModalLink } from '@inertiaui/modal-svelte'
+    import Container from './Container.svelte'
+    import { Modal, ModalLink } from '@inertiaui/modal-svelte'
 
-let modalRef = $state()
+    let modalRef = $state()
 
-function closeModal() {
-    modalRef.close()
-}
+    function closeModal() {
+        modalRef.close()
+    }
 
-function alertModalId() {
-    alert(modalRef.getId())
-}
+    function alertModalId() {
+        alert(modalRef.getId())
+    }
 </script>
 
 <Container>

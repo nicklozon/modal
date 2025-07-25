@@ -13,7 +13,7 @@
             @viteReactRefresh
             @vite(['resources/js/app.jsx', "resources/js/Pages/{$page['component']}.jsx"])
         @elseif(config('app.stack') === 'svelte')
-            @vite(['resources/js/app_svelte.js', "resources/js/Pages/{$page['component']}.svelte"])
+            @vite(['resources/js/app-svelte.js', "resources/js/Pages/{$page['component']}.svelte"])
         @else
             @vite(['resources/js/app.js', "resources/js/Pages/{$page['component']}.vue"])
         @endif

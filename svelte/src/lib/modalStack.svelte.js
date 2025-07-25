@@ -397,7 +397,6 @@ export const renderApp = (el, App, pageProps) => {
     const modalEl = document.createElement('div')
     el.parentNode.insertBefore(modalEl, el.nextSibling)
 
-    //mount(ModalRoot, { target: el, props: { ...pageProps, App } })
     // NL: modal needs to exist outside of the app for aria reasons
     //     this currently works but causes a browser error because aria-hidden=true happens when the app element still has focus which is not allowed
     //     the modal root essentially needs to wait for the modal to be focused before updating the aria-hidden attribute on the app el

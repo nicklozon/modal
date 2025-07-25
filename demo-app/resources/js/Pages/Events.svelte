@@ -1,15 +1,15 @@
 <script>
-import Container from './Container.svelte'
-import { ModalLink } from '@inertiaui/modal-svelte'
-import { page } from '@inertiajs/svelte'
+    import Container from './Container.svelte'
+    import { ModalLink } from '@inertiaui/modal-svelte'
+    import { page } from '@inertiajs/svelte'
 
-let { navigate = false } = $props()
+    let { navigate = false } = $props()
 
-let log = $state([])
+    let log = $state([])
 
-function push(value) {
-    log.push(value)
-}
+    function push(value) {
+        log.push(value)
+    }
 </script>
 
 <Container>

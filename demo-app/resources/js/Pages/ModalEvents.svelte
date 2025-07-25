@@ -1,9 +1,9 @@
 <script>
-import { Modal, ModalLink } from '@inertiaui/modal-svelte'
+    import { Modal, ModalLink } from '@inertiaui/modal-svelte'
 
-function log(value) {
-    console.log(value)
-}
+    function log(value) {
+        console.log(value)
+    }
 </script>
 
 <Modal

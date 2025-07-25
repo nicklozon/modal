@@ -1,24 +1,24 @@
 <script>
-import { Link } from '@inertiajs/svelte'
-import { ModalLink } from '@inertiaui/modal-svelte'
-import * as InertiaSvelte from '@inertiajs/svelte';
-import ComponentThatUsesModalInstance from './ComponentThatUsesModalInstance.svelte';
-import Container from './Container.svelte'
-import { onMount } from 'svelte';
+    import { Link } from '@inertiajs/svelte'
+    import { ModalLink } from '@inertiaui/modal-svelte'
+    import * as InertiaSvelte from '@inertiajs/svelte'
+    import ComponentThatUsesModalInstance from './ComponentThatUsesModalInstance.svelte'
+    import Container from './Container.svelte'
+    import { onMount } from 'svelte'
 
-let { users, random, navigate, deferred } = $props();
+    let { users, random, navigate, deferred } = $props()
 
-const rand = () => Math.floor(Math.random() * 100000) + 1
-let stateA = $state(rand())
-let stateB = $state(rand())
+    const rand = () => Math.floor(Math.random() * 100000) + 1
+    let stateA = $state(rand())
+    let stateB = $state(rand())
 
-onMount(() => {
-    stateB = rand()
-})
+    onMount(() => {
+        stateB = rand()
+    })
 
-function alertGreeting(greeting) {
-    alert(greeting)
-}
+    function alertGreeting(greeting) {
+        alert(greeting)
+    }
 </script>
 
 

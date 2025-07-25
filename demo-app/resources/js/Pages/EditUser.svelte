@@ -1,48 +1,47 @@
 <script>
-import axios from 'axios'
-import { onMount, onDestroy } from 'svelte';
-import { Link, useForm } from '@inertiajs/svelte';
-import { Modal, ModalLink } from '@inertiaui/modal-svelte';
-import ComponentThatUsesModalInstance from './ComponentThatUsesModalInstance.svelte';
+    import axios from 'axios'
+    import { onMount, onDestroy } from 'svelte'
+    import { Link, useForm } from '@inertiajs/svelte'
+    import { Modal, ModalLink } from '@inertiaui/modal-svelte'
+    import ComponentThatUsesModalInstance from './ComponentThatUsesModalInstance.svelte'
 
-let { user, roles, randomKey } = $props();
+    let { user, roles, randomKey } = $props()
 
-
-const form = useForm({
-    name: user.name,
-    email: user.email,
-    role_id: user.role_id,
-})
-
-function updateAndRefresh(event) {
-    event.preventDefault() // NL: react doesn't do this
-    $form.put(`/users/${user.id}?redirect=edit`)
-}
-
-let modalRef
-let message = $state('')
-
-function submit(event) {
-    event.preventDefault()
-    $form.put(`/users/${user.id}`, {
-        onSuccess() {
-            modalRef.close()
-        }
+    const form = useForm({
+        name: user.name,
+        email: user.email,
+        role_id: user.role_id,
     })
-}
 
-function onMessage(msg) {
-    message = msg
-    modalRef.getChildModal().emit('greeting', `Thanks from ${user.name}`)
-}
+    function updateAndRefresh(event) {
+        event.preventDefault()
+        $form.put(`/users/${user.id}?redirect=edit`)
+    }
 
-function reloadWithData() {
-    modalRef.reload({ only: ['randomKey'], data: { fixedRandomKey: 'from-data' } })
-}
+    let modalRef
+    let message = $state('')
 
-function reloadWithHeader() {
-    modalRef.reload({ only: ['randomKey'], headers: { 'X-Random-Key': 'from-header' } })
-}
+    function submit(event) {
+        event.preventDefault()
+        $form.put(`/users/${user.id}`, {
+            onSuccess() {
+                modalRef.close()
+            }
+        })
+    }
+
+    function onMessage(msg) {
+        message = msg
+        modalRef.getChildModal().emit('greeting', `Thanks from ${user.name}`)
+    }
+
+    function reloadWithData() {
+        modalRef.reload({ only: ['randomKey'], data: { fixedRandomKey: 'from-data' } })
+    }
+
+    function reloadWithHeader() {
+        modalRef.reload({ only: ['randomKey'], headers: { 'X-Random-Key': 'from-header' } })
+    }
 </script>
 
 <Modal

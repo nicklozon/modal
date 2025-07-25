@@ -1,20 +1,20 @@
 <script>
-import Container from './Container.svelte'
-import { Modal, ModalLink, visitModal } from '@inertiaui/modal-svelte'
-import { Link } from '@inertiajs/svelte'
+    import Container from './Container.svelte'
+    import { Modal, ModalLink, visitModal } from '@inertiaui/modal-svelte'
+    import { Link } from '@inertiajs/svelte'
 
-let { navigate = false } = $props()
+    let { navigate = false } = $props()
 
-function visitEdit() {
-    visitModal('/users/1/edit', {
-        navigate: true,
-        listeners: {
-            userGreets(greeting) {
-                alert(greeting)
+    function visitEdit() {
+        visitModal('/users/1/edit', {
+            navigate: true,
+            listeners: {
+                userGreets(greeting) {
+                    alert(greeting)
+                }
             }
-        }
-    })
-}
+        })
+    }
 </script>
 
 <Container>

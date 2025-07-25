@@ -1,5 +1,5 @@
 <script>
-    import { Modal } from '@inertiaui/modal-svelte';
+    import { Modal } from '@inertiaui/modal-svelte'
 </script>
 
 <Modal

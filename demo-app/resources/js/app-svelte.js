@@ -4,7 +4,6 @@ import '../css/app.css'
 import { createInertiaApp } from '@inertiajs/svelte'
 
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers'
-//import { ZiggyVue } from '../../vendor/tightenco/ziggy/src/js'
 import { putConfig, renderApp } from '@inertiaui/modal-svelte'
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel'

@@ -32,7 +32,7 @@ function stackApp() {
         case 'vue':
             return 'resources/js/app.js'
         case 'svelte':
-            return 'resources/js/app_svelte.js'
+            return 'resources/js/app-svelte.js'
         default:
             return 'resources/js/app.jsx'
     }
@@ -44,7 +44,8 @@ export default defineConfig({
         dedupe: ['@inertiajs/react', '@inertiajs/vue3', '@inertiajs/svelte', 'axios'],
         alias: {
             '@inertiaui/modal-react': '/../react',
-            '@inertiaui/modal-vue': '/../vue'
+            '@inertiaui/modal-vue': '/../vue',
+            '@inertiaui/modal-svelte': '/../svelte'
         }
     },
 
