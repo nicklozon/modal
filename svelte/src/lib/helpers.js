@@ -105,25 +105,25 @@ function kebabCase(string) {
 }
 
 function onEscape(node, callback) {
-  function handle(event) {
-    if (event.key === 'Escape') callback(event);
-  }
-
-  window.addEventListener('keydown', handle);
-  return {
-    destroy() {
-      window.removeEventListener('keydown', handle);
+    function handle(event) {
+        if (event.key === 'Escape') callback(event)
     }
-  };
+
+    window.addEventListener('keydown', handle)
+    return {
+        destroy() {
+            window.removeEventListener('keydown', handle)
+        },
+    }
 }
 
 function onClick(node, callback) {
-  window.addEventListener('click', callback);
-  return {
-    destroy() {
-      window.removeEventListener('click', callback);
+    window.addEventListener('click', callback)
+    return {
+        destroy() {
+            window.removeEventListener('click', callback)
+        },
     }
-  };
 }
 
 export { generateIdUsing, sameUrlPath, generateId, except, only, rejectNullValues, kebabCase, onEscape, onClick }

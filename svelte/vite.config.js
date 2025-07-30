@@ -1,13 +1,19 @@
-import { sveltekit } from '@sveltejs/kit/vite';
-import { defineConfig } from 'vite';
+import { sveltekit } from '@sveltejs/kit/vite'
+import { defineConfig } from 'vite'
+import eslintPlugin from 'vite-plugin-eslint'
 
-// NL: need prettier and eslint
 export default defineConfig({
-	plugins: [sveltekit()],
+    plugins: [
+        eslintPlugin({
+            fix: true,
+            failOnError: false,
+        }),
+        sveltekit(),
+    ],
 
-	build: {
-		rollupOptions: {
-			external: ['@inertiajs/core', '@inertiajs/svelte', 'axios', 'svelte'],
-		}	
-	}
-});
+    build: {
+        rollupOptions: {
+            external: ['@inertiajs/core', '@inertiajs/svelte', 'axios', 'svelte'],
+        },
+    },
+})

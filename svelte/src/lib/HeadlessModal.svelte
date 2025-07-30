@@ -154,7 +154,7 @@
         onTopOfStack: modalContext.onTopOfStack,
         reload: modalContext.reload,
         setOpen: modalContext.setOpen,
-        shouldRender: modalContext.shouldRender
+        shouldRender: modalContext.shouldRender,
     })}
 
     <!-- The next modal in the stack -->

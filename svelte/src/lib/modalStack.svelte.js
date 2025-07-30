@@ -404,7 +404,6 @@ export const renderApp = (el, App, pageProps) => {
     mount(ModalRoot, { target: modalEl, props: { appEl: el } })
 }
 
-
 export function useModalStack() {
     return {
         setComponentResolver,

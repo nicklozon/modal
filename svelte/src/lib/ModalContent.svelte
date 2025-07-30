@@ -17,17 +17,23 @@
         modalContext.afterLeave()
         onAfterLeave?.()
     }
-    
+
     // NL: not using a headless component library, so handling escape closing manually
-    function handleEscape(event) {
-        if(!config?.closeExplicitly && modalContext.onTopOfStack) {
+    function handleEscape() {
+        if (!config?.closeExplicitly && modalContext.onTopOfStack) {
             modalContext.close()
         }
     }
 
     // NL: not using a headless component library, so handling clicking outside manually
     function handleClickOutside(event) {
-        if(!config?.closeExplicitly && modalContext.onTopOfStack && contentRef && !contentRef.contains(event.target) && document.contains(event.target)) {
+        if (
+            !config?.closeExplicitly &&
+            modalContext.onTopOfStack &&
+            contentRef &&
+            !contentRef.contains(event.target) &&
+            document.contains(event.target)
+        ) {
             modalContext.close()
         }
     }

@@ -1,12 +1,12 @@
 <script>
     import { useModalStack } from './modalStack.svelte.js'
-    import { setContext, onMount, onDestroy } from 'svelte'
+    import { setContext } from 'svelte'
 
     let { index } = $props()
 
     const modalStack = useModalStack()
 
-    let modalContext = $state(modalStack.stack[index])
+    let modalContext = $derived(modalStack.stack[index])
     setContext('modalContext', modalContext)
 
     $effect(() => {
@@ -19,7 +19,6 @@
 
     // NL: had to specify .default to make this work...
     let Page = $derived(modalContext?.component?.default)
-
 
     // NL: events are using kebab case, maybe camel back would be better? Check what react does
     function handleModalEvent(event, ...args) {

@@ -82,7 +82,7 @@
     // NL: not using a headless component library, so handling aria-hidden manually. This causes a browser warning
     //     because it occurs before focus is on the new modal
     $effect(() => {
-        if(modalStack.stack.length) {
+        if (modalStack.stack.length) {
             appEl.setAttribute('aria-hidden', 'true')
         } else {
             appEl.removeAttribute('aria-hidden')

@@ -10,7 +10,6 @@
         onBlur = null,
         onClose = null,
         onSuccess = null,
-        onAfterLeave = null, // NL: I don't think this is ever used, delete?
         // Modal configuration props
         // NL: vue doesn't have these...do I remove them here? They're really headless modal props
         slideover = null,
@@ -63,7 +62,6 @@
 
 <HeadlessModal
     bind:this={headlessModal}
-
     {name}
     {slideover}
     {closeButton}
@@ -72,12 +70,10 @@
     {paddingClasses}
     {panelClasses}
     {position}
-
     {onFocus}
     {onBlur}
     {onClose}
     {onSuccess}
-
     {...rest}
 >
     {#snippet modalSlot({
@@ -94,7 +90,7 @@
         config,
         modalContext,
         onTopOfStack,
-        shouldRender
+        shouldRender,
     })}
         {#if isOpen}
             <div
@@ -120,11 +116,26 @@
 
                 <!-- The modal/slideover content itself -->
                 <Content
-                    modalContext={modalContext}
-                    config={config}
+                    {modalContext}
+                    {config}
                     onoutroend={afterLeave}
                 >
-                    {@render children({afterLeave, close, config, emit, getChildModal, getParentModal, id, index, isOpen, modalContext, onTopOfStack, reload, setOpen, shouldRender})}
+                    {@render children({
+                        afterLeave,
+                        close,
+                        config,
+                        emit,
+                        getChildModal,
+                        getParentModal,
+                        id,
+                        index,
+                        isOpen,
+                        modalContext,
+                        onTopOfStack,
+                        reload,
+                        setOpen,
+                        shouldRender,
+                    })}
                 </Content>
             </div>
         {/if}
