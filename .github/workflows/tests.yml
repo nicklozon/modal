@@ -184,7 +184,7 @@ jobs:
         run: |
           cd demo-app
           php artisan migrate:fresh --seed
-          php artisan dusk --stop-on-error --stop-on-failure
+          php artisan dusk
 
       - name: Upload artifacts on failure
         if: failure()
