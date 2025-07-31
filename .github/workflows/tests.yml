@@ -127,12 +127,11 @@ jobs:
           npm list @inertiajs/svelte
           npm run build
 
-# we don't have svelte tests yet???
-#      - name: Test Svelte library
-#        if: ${{ matrix.stack == 'svelte' }}
-#        run: |
-#          cd svelte
-#          npm run test
+      - name: Test Svelte library
+        if: ${{ matrix.stack == 'svelte' }}
+        run: |
+          cd svelte
+          npm run test
 
       - name: Switch to custom app mounting
         if: ${{ matrix.app_mounting == 'custom' }}

@@ -8,7 +8,8 @@
         "prepare": "svelte-kit sync || echo ''",
         "prepack": "svelte-kit sync && svelte-package && publint",
         "format": "prettier --write .",
-        "lint": "prettier --check . && eslint ."
+        "lint": "prettier --check . && eslint .",
+        "test": "vitest"
     },
     "files": [
         "dist",
@@ -28,17 +29,18 @@
         }
     },
     "peerDependencies": {
-        "@inertiajs/svelte": "^2.0.14",
         "svelte": "^5.0.0"
     },
     "devDependencies": {
         "@eslint/compat": "^1.2.5",
         "@eslint/js": "^9.18.0",
-        "@inertiajs/svelte": "*",
+        "@inertiajs/svelte": "^2.0.17",
         "@sveltejs/adapter-auto": "^6.0.0",
         "@sveltejs/kit": "^2.22.0",
         "@sveltejs/package": "^2.0.0",
         "@sveltejs/vite-plugin-svelte": "^6.0.0",
+        "@vitest/coverage-v8": "^3.2.4",
+        "@vitest/ui": "^3.2.4",
         "eslint": "^9.18.0",
         "eslint-config-prettier": "^10.0.1",
         "eslint-plugin-svelte": "^3.0.0",
@@ -50,7 +52,8 @@
         "svelte": "^5.0.0",
         "typescript": "^5.3.2",
         "vite": "^7.0.4",
-        "vite-plugin-eslint": "^1.8.1"
+        "vite-plugin-eslint": "^1.8.1",
+        "vitest": "^3.2.4"
     },
     "keywords": [
         "svelte"
