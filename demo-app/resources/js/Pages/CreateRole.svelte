@@ -15,12 +15,6 @@
 
     function submit(event) {
         event.preventDefault()
-        /*
-        // NL: This follows the redirect and closes all modals, same as Vue - seems like a bug?
-        $form.post('/roles', {
-            onSuccess: modalRef.close
-        })
-        */
         axios.post('/roles', $form.data()).then(() => modalRef.close())
     }
 
@@ -31,7 +25,7 @@
 
 <Modal
     bind:this={modalRef}
-    on-greeting={onGreeting}
+    onGreeting={onGreeting}
 >
     {#snippet children({ close, getParentModal })}
         <div class="">

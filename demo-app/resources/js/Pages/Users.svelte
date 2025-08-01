@@ -57,7 +57,7 @@
                                 dusk={`edit-user-${user.id}`}
                                 href={`/users/${user.id}/edit`}
                                 class="px-2 py-1 text-xs font-medium text-indigo-600 bg-indigo-100 rounded-md"
-                                on-user-greets={alertGreeting}
+                                onUserGreets={alertGreeting}
                             >
                                 Edit
                             </ModalLink>
@@ -67,7 +67,7 @@
                                 dusk={`slideover-user-${user.id}`}
                                 href={`/users/${user.id}/edit`}
                                 class="px-2 py-1 text-xs font-medium text-indigo-600 bg-indigo-100 rounded-md"
-                                on-user-greets={alertGreeting}
+                                onUserGreets={alertGreeting}
                             >
                                 Slideover
                             </ModalLink>

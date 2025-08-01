@@ -46,7 +46,7 @@
 
 <Modal
     bind:this={modalRef}
-    on-message={onMessage}
+    onMessage={onMessage}
 >
     {#snippet children({
         afterLeave,

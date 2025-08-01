@@ -190,9 +190,8 @@ class Modal {
         const unsubscribers = []
 
         Object.keys(props)
-            .filter((key) => key.startsWith('on-'))
+            .filter((key) => key.startsWith('on'))
             .forEach((key) => {
-                // e.g. onRefreshKey -> refresh-key
                 const eventName = kebabCase(key).replace(/^on-/, '')
                 this.on(eventName, props[key])
                 unsubscribers.push(() => this.off(eventName, props[key]))

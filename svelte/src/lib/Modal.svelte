@@ -10,8 +10,6 @@
         onBlur = null,
         onClose = null,
         onSuccess = null,
-        // Modal configuration props
-        // NL: vue doesn't have these...do I remove them here? They're really headless modal props
         slideover = null,
         closeButton = null,
         closeExplicitly = null,
@@ -20,7 +18,7 @@
         panelClasses = null,
         position = null,
         children,
-        ...rest // NL: Vue uses v-slot - this should be filtered
+        ...rest
     } = $props()
 
     let headlessModal
