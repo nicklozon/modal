@@ -291,7 +291,6 @@ function push(component, response, config, onClose, afterLeave) {
     loadDeferredProps(newModal)
 
     // Use setTimeout to ensure the modal is added to the stack before showing
-    // NL: Is this the same as nextTick?
     setTimeout(() => newModal.show(), 0)
 
     return newModal
@@ -365,7 +364,7 @@ function visit(
     })
 }
 
-function visitModal(url, options = {}) {
+export function visitModal(url, options = {}) {
     return visit(
         url,
         options.method ?? 'get',
@@ -397,9 +396,7 @@ export const renderApp = (el, App, pageProps) => {
     const modalEl = document.createElement('div')
     el.parentNode.insertBefore(modalEl, el.nextSibling)
 
-    // NL: modal needs to exist outside of the app for aria reasons
-    //     this currently works but causes a browser error because aria-hidden=true happens when the app element still has focus which is not allowed
-    //     the modal root essentially needs to wait for the modal to be focused before updating the aria-hidden attribute on the app el
+    // NL: modal needs to exist outside of the app for aria reasons - typically you'd use a portal or a library to manage the DOM injection
     mount(App, { target: el, props: pageProps })
     mount(ModalRoot, { target: modalEl, props: { appEl: el } })
 }
@@ -420,11 +417,7 @@ export function useModalStack() {
         visitModal,
         registerLocalModal,
         removeLocalModal: (name) => {
-            const newLocalModals = { ...localModals }
-            delete newLocalModals[name]
-            // NL: this may break since it's a direct assignment if anything is expecting it to be reactive
-            //     maybe make localModals a getter above, unless reactivity is necessary
-            localModals = newLocalModals
+            delete localModals[name]
         },
         onModalOnBase: (modalOnBase) => {
             const resolve = baseModalsToWaitFor[modalOnBase.id]

@@ -2,14 +2,12 @@ import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { useModalStack, modalPropNames, initFromPageProps } from '../src/lib/modalStack.svelte.js'
 import axios from 'axios'
 import { router } from '@inertiajs/svelte'
-import { page } from '@inertiajs/svelte'
 import { generateIdUsing } from '../src/lib/helpers'
 
 vi.mock('@inertiajs/svelte', () => ({
     router: {
         resolveComponent: vi.fn(),
-    },
-    page: vi.fn()
+    }
 }))
 
 vi.mock('axios')
