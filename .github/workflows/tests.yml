@@ -137,7 +137,7 @@ jobs:
           cd demo-app/resources/js
           mv app-custom-mount.js app.js
           mv app-custom-mount.jsx app.jsx
-          mv app-custom-mount-svelte.js app_svelte.js
+          mv app-custom-mount-svelte.js app-svelte.js
 
       - name: Prepare Laravel app
         run: |
