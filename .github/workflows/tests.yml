@@ -41,8 +41,6 @@ jobs:
             stack: react-18
           - laravel: 11.0
             stack: react-19
-          - app_mounting: custom
-            stack: svelte
 
     env:
       APP_URL: "http://127.0.0.1:8000"
@@ -139,7 +137,7 @@ jobs:
           cd demo-app/resources/js
           mv app-custom-mount.js app.js
           mv app-custom-mount.jsx app.jsx
-# custom mount here for svelte???
+          mv app-custom-mount-svelte.js app_svelte.js
 
       - name: Prepare Laravel app
         run: |
