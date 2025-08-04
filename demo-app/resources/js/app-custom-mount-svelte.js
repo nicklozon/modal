@@ -4,7 +4,7 @@ import '../css/app.css'
 import { mount } from 'svelte'
 import { createInertiaApp } from '@inertiajs/svelte'
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers'
-import { putConfig, initFromPageProps } from '@inertiaui/modal-svelte'
+import { putConfig, initFromPageProps, ModalRoot } from '@inertiaui/modal-svelte'
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel'
 
@@ -14,7 +14,10 @@ createInertiaApp({
     setup({ el, App, props, plugin }) {
         initFromPageProps(props)
 
-        mount(App, { target: el, props: pageProps })
+        const modalEl = document.createElement('div')
+        el.parentNode.insertBefore(modalEl, el.nextSibling)
+
+        mount(App, { target: el, props: props })
         mount(ModalRoot, { target: modalEl, props: { appEl: el } })
     },
     progress: {
