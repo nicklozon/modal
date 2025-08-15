@@ -34,7 +34,7 @@
     let loading = $state(false)
     let modalContext = $state(null)
     let unsubscribeEventListeners = null
-    let isBlurred = $state(false)
+    let isBlurred = false
 
     const modalStack = useModalStack()
 

@@ -2,12 +2,11 @@
     import CloseButton from './CloseButton.svelte'
     import { scale } from 'svelte/transition'
     import { quintOut } from 'svelte/easing'
-    import { onClick, onEscape } from './helpers.js'
 
     let { modalContext, config, onAfterLeave, children } = $props()
 
+
     let entered = $state(false)
-    let contentRef
 
     function handleAfterEnter() {
         entered = true
@@ -16,26 +15,6 @@
     function handleAfterLeave() {
         modalContext.afterLeave()
         onAfterLeave?.()
-    }
-
-    // NL: not using a headless component library, so handling escape closing manually
-    function handleEscape() {
-        if (!config?.closeExplicitly && modalContext.onTopOfStack) {
-            modalContext.close()
-        }
-    }
-
-    // NL: not using a headless component library, so handling clicking outside manually
-    function handleClickOutside(event) {
-        if (
-            !config?.closeExplicitly &&
-            modalContext.onTopOfStack &&
-            contentRef &&
-            !contentRef.contains(event.target) &&
-            document.contains(event.target)
-        ) {
-            modalContext.close()
-        }
     }
 </script>
 
@@ -49,7 +28,6 @@
         class:items-end={config.position === 'bottom'}
     >
         <div
-            bind:this={contentRef}
             class="im-modal-wrapper w-full"
             class:blur-sm={!modalContext.onTopOfStack}
             class:sm:max-w-sm={config.maxWidth === 'sm'}
@@ -66,8 +44,6 @@
             out:scale|global={{ duration: 300, easing: quintOut, start: 0.95 }}
             onintroend={handleAfterEnter}
             onoutroend={handleAfterLeave}
-            use:onEscape={handleEscape}
-            use:onClick={handleClickOutside}
         >
             <div
                 class="im-modal-content relative {config.paddingClasses} {config.panelClasses}"

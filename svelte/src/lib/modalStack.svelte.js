@@ -80,6 +80,7 @@ class Modal {
             }
 
             const modals = stack.map((modal) => ({ id: modal.id, shouldRender: modal.shouldRender }))
+
             return modals.reverse().find((modal) => modal.shouldRender)?.id === this.id
         })
     }
@@ -392,13 +393,7 @@ export const modalPropNames = ['closeButton', 'closeExplicitly', 'maxWidth', 'pa
 
 export const renderApp = (el, App, pageProps) => {
     initFromPageProps(pageProps)
-
-    const modalEl = document.createElement('div')
-    el.parentNode.insertBefore(modalEl, el.nextSibling)
-
-    // NL: modal needs to exist outside of the app for aria reasons - typically you'd use a portal or a library to manage the DOM injection
-    mount(App, { target: el, props: pageProps })
-    mount(ModalRoot, { target: modalEl, props: { appEl: el } })
+    mount(ModalRoot, { target: el, props: { el, App, pageProps } })
 }
 
 export function useModalStack() {
@@ -407,7 +402,7 @@ export function useModalStack() {
         getBaseUrl: () => baseUrl,
         setBaseUrl: (url) => (baseUrl = url),
         stack: stack,
-        localModals: localModals,
+        localModals: localModals, // this isn't exported in vue
         push,
         pushFromResponseData,
         length: () => stack.length,
@@ -416,9 +411,7 @@ export function useModalStack() {
         visit,
         visitModal,
         registerLocalModal,
-        removeLocalModal: (name) => {
-            delete localModals[name]
-        },
+        removeLocalModal: (name) => delete localModals[name],
         onModalOnBase: (modalOnBase) => {
             const resolve = baseModalsToWaitFor[modalOnBase.id]
 

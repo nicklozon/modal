@@ -1,8 +1,11 @@
 <script>
+    import { createDialog, melt } from '@melt-ui/svelte'
     import HeadlessModal from './HeadlessModal.svelte'
     import ModalContent from './ModalContent.svelte'
     import SlideoverContent from './SlideoverContent.svelte'
     import { fade } from 'svelte/transition'
+    import { getConfig, getConfigByType } from './config.js'
+    import { getContext } from 'svelte'
 
     let {
         name = null,
@@ -23,6 +26,24 @@
 
     let headlessModal
     const Content = $derived(headlessModal?.getConfig().slideover ? SlideoverContent : ModalContent)
+
+    const handleOpenChange = open => {
+        if(open.next === false) {
+            headlessModal?.close()
+        }
+    }
+
+    // NL: we need the config before the headlessmodal is mounted
+    const modalContext = getContext('modalContext')
+    const isSlideover = modalContext?.config?.slideover ?? slideover ?? getConfig('type') === 'slideover'
+    const closeExplicitlyConfig = closeExplicitly ?? getConfigByType(isSlideover, 'closeExplicitly')
+
+    const { elements: { portalled, overlay, content } } = createDialog({
+        forceVisible: true,
+        closeOnOutsideClick: closeExplicitlyConfig !== true,
+        escapeBehavior: closeExplicitlyConfig ? 'ignore' : 'close',
+        onOpenChange: handleOpenChange
+    })
 
     // Expose methods from HeadlessModal
     export function getId() {
@@ -92,6 +113,7 @@
     })}
         {#if isOpen}
             <div
+                use:melt={$portalled}
                 class="im-dialog relative z-20"
                 data-inertiaui-modal-id={id}
                 data-inertiaui-modal-index={index}
@@ -102,6 +124,7 @@
                 <!-- Only transition the backdrop for the first modal in the stack -->
                 {#if index === 0 && onTopOfStack}
                     <div
+                        use:melt={$overlay}
                         class="im-backdrop fixed inset-0 z-30 bg-black/75"
                         transition:fade|global={{ duration: 300 }}
                     ></div>
@@ -118,22 +141,24 @@
                     {config}
                     onoutroend={afterLeave}
                 >
-                    {@render children({
-                        afterLeave,
-                        close,
-                        config,
-                        emit,
-                        getChildModal,
-                        getParentModal,
-                        id,
-                        index,
-                        isOpen,
-                        modalContext,
-                        onTopOfStack,
-                        reload,
-                        setOpen,
-                        shouldRender,
-                    })}
+                    <div use:melt={$content}>
+                        {@render children({
+                            afterLeave,
+                            close,
+                            config,
+                            emit,
+                            getChildModal,
+                            getParentModal,
+                            id,
+                            index,
+                            isOpen,
+                            modalContext,
+                            onTopOfStack,
+                            reload,
+                            setOpen,
+                            shouldRender,
+                        })}
+                    </div>
                 </Content>
             </div>
         {/if}

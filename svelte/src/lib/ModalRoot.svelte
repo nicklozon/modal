@@ -8,7 +8,7 @@
 
     const modalStack = useModalStack()
 
-    let { appEl } = $props()
+    let { el, App, pageProps } = $props()
 
     let isNavigating = $state(false)
     let previousModalOnBase = $state(null)
@@ -78,17 +78,17 @@
 
         previousModal = newModal
     })
-
-    // NL: not using a headless component library, so handling aria-hidden manually. This causes a browser warning
-    //     because it occurs before focus is on the new modal
+    // NL: Looks like Melt UI does not apply aria-hidden the same as Headless UI
     $effect(() => {
         if (modalStack.stack.length) {
-            appEl.setAttribute('aria-hidden', 'true')
+            el.setAttribute('aria-hidden', 'true')
         } else {
-            appEl.removeAttribute('aria-hidden')
+            el.removeAttribute('aria-hidden')
         }
     })
 </script>
+
+<App {...pageProps} />
 
 {#if modalStack.stack.length > 0}
     <ModalRenderer index={0} />

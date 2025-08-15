@@ -1,5 +1,6 @@
 import adapter from '@sveltejs/adapter-auto'
-
+import { preprocessMeltUI, sequence } from '@melt-ui/pp'
+ 
 /** @type {import('@sveltejs/kit').Config} */
 const config = {
     kit: {
@@ -8,6 +9,9 @@ const config = {
         // See https://svelte.dev/docs/kit/adapters for more information about adapters.
         adapter: adapter(),
     },
+    preprocess: sequence([
+        preprocessMeltUI()
+    ])
 }
 
 export default config
