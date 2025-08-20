@@ -307,6 +307,9 @@ function visit(
     onAfterLeave = null,
     queryStringArrayFormat = 'brackets',
     useBrowserHistory = false,
+    onStart = null,
+    onSuccess = null,
+    onError = null
 ) {
     const modalId = generateId()
 
@@ -337,7 +340,7 @@ function visit(
         }
 
         if (useInertiaRouter) {
-            baseModalsToWaitFor = {}
+            //baseModalsToWaitFor = {} // NL: this came from react
 
             pendingModalUpdates[modalId] = {
                 config,
@@ -352,16 +355,33 @@ function visit(
                 headers,
                 preserveScroll: true,
                 preserveState: true,
-                onError: reject,
+                onError(...args) {
+                    onError?.(...args)
+                    reject(...args)
+                },
+                onStart(...args) {
+                    onStart?.(...args)
+                },
+                onSuccess(...args) {
+                    onSuccess?.(...args)
+                },
                 onBefore: () => {
                     baseModalsToWaitFor[modalId] = resolve
                 },
             })
         }
 
+        onStart?.()
+
         Axios({ url, method, data, headers })
-            .then((response) => resolve(pushFromResponseData(response.data, config, onClose, onAfterLeave)))
-            .catch(reject)
+            .then((response) => {
+                onSuccess?.(response)
+                resolve(pushFromResponseData(response.data, config, onClose, onAfterLeave))
+            })
+            .catch((...args) => {
+                onError?.(...args)
+                reject(...args)
+            })
     })
 }
 
@@ -376,6 +396,9 @@ export function visitModal(url, options = {}) {
         options.onAfterLeave,
         options.queryStringArrayFormat ?? 'brackets',
         options.navigate ?? getConfig('navigate'),
+        options.onStart,
+        options.onSuccess,
+        options.onError,
     ).then((modal) => {
         const listeners = options.listeners ?? {}
 
@@ -401,8 +424,7 @@ export function useModalStack() {
         setComponentResolver,
         getBaseUrl: () => baseUrl,
         setBaseUrl: (url) => (baseUrl = url),
-        stack: stack,
-        localModals: localModals, // this isn't exported in vue
+        stack,
         push,
         pushFromResponseData,
         length: () => stack.length,
