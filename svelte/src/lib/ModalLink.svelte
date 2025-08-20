@@ -32,17 +32,14 @@
     } = $props()
 
     let loading = $state(false)
+    let modalStack = useModalStack()
     let modalContext = $state(null)
-    let unsubscribeEventListeners = null
     let isBlurred = false
-
-    const modalStack = useModalStack()
+    let shouldNavigate = $derived(navigate ?? getConfig('navigate'))
+    let unsubscribeEventListeners = null
 
     $effect(() => setContext('modalContext', modalContext))
 
-    let shouldNavigate = $derived(navigate ?? getConfig('navigate'))
-
-    // Watch for focus/blur changes
     $effect(() => {
         if (modalContext) {
             if (modalContext.onTopOfStack && isBlurred) {
@@ -80,7 +77,7 @@
         }
 
         try {
-            const allProps = {
+            const props = {
                 closeButton,
                 closeExplicitly,
                 maxWidth,
@@ -96,7 +93,7 @@
                 method,
                 data,
                 headers,
-                rejectNullValues(only(allProps, modalPropNames)),
+                rejectNullValues(only(props, modalPropNames)),
                 handleClose,
                 handleAfterLeave,
                 queryStringArrayFormat,
@@ -113,12 +110,10 @@
         }
     }
 
-    // Cleanup event listeners on destroy
     onDestroy(() => {
         unsubscribeEventListeners?.()
     })
 
-    // Filter out modal-specific props and event handlers for the component
     let componentProps = $derived.by(() => {
         const filtered = {}
         Object.keys(restProps).forEach((key) => {
