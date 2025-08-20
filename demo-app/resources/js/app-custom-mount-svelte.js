@@ -13,12 +13,7 @@ createInertiaApp({
     resolve: (name) => resolvePageComponent(`./Pages/${name}.svelte`, import.meta.glob('./Pages/**/*.svelte')),
     setup({ el, App, props, plugin }) {
         initFromPageProps(props)
-
-        const modalEl = document.createElement('div')
-        el.parentNode.insertBefore(modalEl, el.nextSibling)
-
-        mount(App, { target: el, props: props })
-        mount(ModalRoot, { target: modalEl, props: { appEl: el } })
+        mount(ModalRoot, { target: el, props: { el, App, pageProps: props } })
     },
     progress: {
         color: '#4B5563',
