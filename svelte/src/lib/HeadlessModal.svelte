@@ -13,7 +13,8 @@
         paddingClasses = null,
         panelClasses = null,
         position = null,
-        modalSlot,
+        modalSlot, // NL: Could I just use children here?
+        // NL: these 4 are not on the vue component
         onFocus,
         onBlur,
         onClose,
@@ -23,8 +24,8 @@
 
     const modalStack = useModalStack()
     let localModalContext = $state({})
-    let unsubscribeEventListeners = null
     let modalContext = $state(name ? localModalContext : getContext('modalContext'))
+    let unsubscribeEventListeners = null
 
     let config = $derived.by(() => {
         const isSlideover = modalContext?.config?.slideover ?? slideover ?? getConfigOuter('type') === 'slideover'
@@ -46,15 +47,18 @@
         return modalStack.stack.find((m) => m.shouldRender && m.index > modalContext.index)?.index
     })
 
-    // Handle local modals
     if (name) {
         modalStack.registerLocalModal(name, (context) => {
             modalContext = context
             unsubscribeEventListeners = context.registerEventListenersFromProps(restProps)
         })
-    } else if (modalContext) {
-        unsubscribeEventListeners = modalContext.registerEventListenersFromProps(restProps)
     }
+
+    $effect(() => {
+        if (!name && modalContext) {
+            unsubscribeEventListeners = modalContext.registerEventListenersFromProps(restProps)
+        }
+    })
 
     onDestroy(() => {
         if (name) {
