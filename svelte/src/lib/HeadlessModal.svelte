@@ -13,12 +13,11 @@
         paddingClasses = null,
         panelClasses = null,
         position = null,
-        modalSlot, // NL: Could I just use children here?
-        // NL: these 4 are not on the vue component
         onFocus,
         onBlur,
         onClose,
         onSuccess,
+        children,
         ...restProps
     } = $props()
 
@@ -144,7 +143,7 @@
 </script>
 
 {#if modalContext?.shouldRender}
-    {@render modalSlot({
+    {@render children({
         afterLeave: modalContext.afterLeave,
         close: modalContext.close,
         config,

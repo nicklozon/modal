@@ -33,7 +33,6 @@
         }
     }
 
-    // NL: we need the config before the headlessmodal is mounted
     const modalContext = getContext('modalContext')
     const isSlideover = modalContext?.config?.slideover ?? slideover ?? getConfig('type') === 'slideover'
     const closeExplicitlyConfig = closeExplicitly ?? getConfigByType(isSlideover, 'closeExplicitly')
@@ -95,7 +94,7 @@
     {onSuccess}
     {...rest}
 >
-    {#snippet modalSlot({
+    {#snippet children({
         afterLeave,
         close,
         emit,

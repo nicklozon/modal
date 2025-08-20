@@ -22,10 +22,6 @@
     function handleModalEvent(event, ...args) {
         modalContext?.emit(event.type, ...args)
     }
-
-    // NL: There doesn't seem to be a way to infer what props a svelte component expects
-    // So we just pass everything through
-    // {...only(modalContext.props || {}, modalContext.getComponentPropKeys(), true)}
 </script>
 
 {#if Page}

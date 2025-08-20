@@ -290,7 +290,6 @@ describe('modalStack', () => {
                     'X-Inertia-Version': '1.0',
                     'X-InertiaUI-Modal': 'inertiaui_modal_uuid',
                     'X-InertiaUI-Modal-Use-Router': 0,
-                    // NL: in vue this is an empty string because window is undefined
                     'X-InertiaUI-Modal-Base-Url': 'http://localhost:3000/',
                 },
             })

@@ -78,7 +78,7 @@
 
         previousModal = newModal
     })
-    // NL: Looks like Melt UI does not apply aria-hidden the same as Headless UI
+
     $effect(() => {
         if (modalStack.stack.length) {
             el.setAttribute('aria-hidden', 'true')
